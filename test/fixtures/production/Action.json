@@ -1,0 +1,435 @@
+{
+  "model": "action",
+  "data": [
+    {
+      "_id": "5de991c57b8ae816e101200b",
+      "label": "Criar papel",
+      "name": "createPrivilege",
+      "methods": [
+        "moduleRead",
+        "privilegeCreate"
+      ]
+    },
+    {
+      "_id": "5defceef354e4e8eba085749",
+      "label": "Ler papeis",
+      "name": "readPrivilege",
+      "methods": [
+        "privilegesRead"
+      ]
+    },
+    {
+      "_id": "5defd351e4bef0c13459991f",
+      "label": "Atualizar papeis",
+      "name": "updatePrivilege",
+      "methods": [
+        "moduleRead",
+        "privilegesRead",
+        "privilegeUpdate"
+      ]
+    },
+    {
+      "_id": "5df0e38406851f0768c96cc8",
+      "label": "Criar entidade",
+      "name": "createEntity",
+      "methods": [
+        "moduleRead",
+        "entityCreate",
+        "entityReadByName"
+      ]
+    },
+    {
+      "_id": "5df1317dc8a6ea21c5afd699",
+      "label": "Ler entidade",
+      "name": "readEntityByName",
+      "methods": [
+        "entityReadByName",
+        "entityReadPerPage",
+        "entityReadPerId"
+      ]
+    },
+    {
+      "_id": "5fa40883a8619b9dba70078b",
+      "label": "Ler entidade filha",
+      "name": "readEntityChildren",
+      "methods": [
+        "entityReadChildren"
+      ]
+    },
+    {
+      "_id": "5df15be7887d9411e5f2d9d4",
+      "label": "Atualizar entidade",
+      "name": "updateEntity",
+      "methods": [
+        "entityReadByName",
+        "entityReadPerPage",
+        "entityUpdate"
+      ]
+    },
+    {
+      "_id": "5df239050637645f0dba4d4d",
+      "label": "Adicionar entidade em outra",
+      "name": "addEntityOn",
+      "methods": [
+        "entityReadByName",
+        "entityReadPerPage",
+        "entityAddOn"
+      ]
+    },
+    {
+      "_id": "5df241e000f029c61e7233d3",
+      "label": "Remover entidade de outra",
+      "name": "removeEntityFrom",
+      "methods": [
+        "entityReadByName",
+        "entityReadPerPage",
+        "removeEntityFrom"
+      ]
+    },
+    {
+      "_id": "5df28d8530e7804e0a107af4",
+      "label": "Importar entidades",
+      "name": "entitiesImport",
+      "methods": [
+        "moduleRead",
+        "entitiesDownload",
+        "entitiesImport"
+      ]
+    },
+    {
+      "_id": "5df532540b367ca0a8bd5fef",
+      "label": "Baixar .xlx das entidades",
+      "name": "entitiesDownload",
+      "methods": [
+        "entitiesXLSX"
+      ]
+    },
+    {
+      "_id": "5df7b9fd3713dc35f9417353",
+      "label": "Criar usuario",
+      "name": "userCreate",
+      "methods": [
+        "entityReadByName",
+        "privilegesRead",
+        "userCreate"
+      ]
+    },
+    {
+      "_id": "5df7f25d380b24465070597a",
+      "label": "Ler usuarios",
+      "name": "userRead",
+      "methods": [
+        "userReadByFilter",
+        "userReadEntities",
+        "userReadPerPage",
+        "readAllUser"
+      ]
+    },
+    {
+      "_id": "5df80aa78835ab6461e9c813",
+      "label": "Atualizar usuario",
+      "name": "userUpdate",
+      "methods": [
+        "userReadByFilter",
+        "userReadPerPage",
+        "userUpdate"
+      ]
+    },
+    {
+      "_id": "5df8186eced1b393b1dd66e6",
+      "label": "Adicioanr usuario a uma entidade",
+      "name": "userAddOnEntity",
+      "methods": [
+        "userReadByFilter",
+        "userReadPerPage",
+        "entityReadByName",
+        "entityReadPerPage",
+        "privilegesRead",
+        "userAddOnEntity"
+      ]
+    },
+    {
+      "_id": "5df8ed8bf6abf3e3c224c940",
+      "label": "Remover usuario de uma entidade",
+      "name": "userRemoveFromEntity",
+      "methods": [
+        "userReadByFilter",
+        "userReadPerPage",
+        "userReadEntities",
+        "userRemoveFromEntity"
+      ]
+    },
+    {
+      "_id": "5df9245bffe01f57b0991b9a",
+      "label": "Atualizar papel",
+      "name": "userChangePrivilege",
+      "methods": [
+        "userReadByFilter",
+        "userReadPerPage",
+        "userReadEntities",
+        "privilegesRead",
+        "userChangePrivilege"
+      ]
+    },
+    {
+      "_id": "5df95aa6467efe9f4145f4f7",
+      "label": "Importar usuarios",
+      "name": "usersImport",
+      "methods": [
+        "privilegesRead",
+        "usersImport"
+      ]
+    },
+    {
+      "_id": "5dfbcbad665f456ebbbdca71",
+      "label": "Remover usuario",
+      "name": "userRemove",
+      "methods": [
+        "userReadByFilter",
+        "userReadPerPage",
+        "userDelete"
+      ]
+    },
+    {
+      "_id": "5dfbe1bba95709b4e4e20b0f",
+      "label": "Remover entidade",
+      "name": "entityDelete",
+      "methods": [
+        "entityReadByName",
+        "entityReadPerPage",
+        "entityDelete"
+      ]
+    },
+    {
+      "_id": "5dfcbe4e69836b8d79aad532",
+      "label": "Remover papel",
+      "name": "privilegeDelete",
+      "methods": [
+        "privilegesRead",
+        "privilegeDelete"
+      ]
+    },
+    {
+      "_id": "5e18e70b458749e3c67fcf91",
+      "label": "Criar material de apoio",
+      "name": "supportResourceCreate",
+      "methods": [
+        "addLocalFile",
+        "linkFromDrive",
+        "createFolder",
+        "linkFileDrive",
+        "linkFolderDrive",
+        "readMySupportResource",
+        "addFileOnFolder",
+        "createChildrenFolder",
+        "createLink",
+        "createChildrenLink"
+      ]
+    },
+    {
+      "_id": "5e1f0d039c078362897a3da2",
+      "label": "Ler material de apoio",
+      "name": "supportResourceRead",
+      "methods": [
+        "readSupportResource",
+        "readFolderSupportResource"
+      ]
+    },
+    {
+      "_id": "5e1f50ca160a185965d1dda4",
+      "label": "Atualizar material de apoio",
+      "name": "supportResourceUpdate",
+      "methods": [
+        "readMySupportResource",
+        "updateSupportResource"
+      ]
+    },
+    {
+      "_id": "5e1f7397cdfeba7de257eda9",
+      "label": "Deletar material de apoio",
+      "name": "supportResourceDelete",
+      "methods": [
+        "readMySupportResource",
+        "deleteSupportResource"
+      ]
+    },
+    {
+      "_id": "5e206b3083806410a8d8321d",
+      "label": "Download de material de apoio",
+      "name": "supportResourceDownload",
+      "methods": [
+        "readMySupportResource",
+        "downloadSupportResource"
+      ]
+    },
+    {
+      "_id": "5e284176c9cc1d83c2dae57a",
+      "label": "Criar trabalho colaborativo",
+      "name": "collaborativeWorkCreate",
+      "methods": [
+        "createCollaborativeWork",
+        "addLocalFile",
+        "addDriveLink",
+        "addDriveFile",
+        "createTeam",
+        "createLinkCollaborativeWork"
+      ]
+    },
+    {
+      "_id": "5e2f3573afeb486e0e327e80",
+      "label": "Ler todos trabalhos colaborativos",
+      "name": "collaborativeWorkReadAll",
+      "methods": [
+        "readAll",
+        "downloadFile"
+      ]
+    },
+    {
+      "_id": "5e2f45a92018575b2af4dcdd",
+      "label": "Ler trabalhos colaborativos disponiveis",
+      "name": "collaborativeWorkReadAllAvailable",
+      "methods": [
+        "readAllAvailable",
+        "downloadFile"
+      ]
+    },
+    {
+      "_id": "5e3043a7397279c56edbe4cf",
+      "label": "Atualizar trabalho collaborativo",
+      "name": "collaborativeWorkUpdate",
+      "methods": [
+        "readAll",
+        "updateInfos",
+        "updateAnswerInfos",
+        "updateExternalLink",
+        "removeFile",
+        "deleteAnswer",
+        "updateParticipants",
+        "deleteParticipant",
+        "removeLink"
+      ]
+    },
+    {
+      "_id": "5e32e80c8f87417645835e50",
+      "label": "Remover trabalho collaborativo",
+      "name": "collaborativeWorkDelete",
+      "methods": [
+        "readAll",
+        "deleteCollaborativeWork",
+        "deleteAnswer",
+        "deleteParticipant"
+      ]
+    },
+    {
+      "_id": "5f1e3a15a82d6447c52894dc",
+      "label": "Responder trabalhos collaborativos",
+      "name": "collaborativeWorkAnswerCreate",
+      "methods": [
+        "readAllAvailable",
+        "downloadFile",
+        "readAnswerDetail",
+        "createAnswer",
+        "attachAnswerFile",
+        "updateAnswerData",
+        "downloadFileAnswer",
+        "readCollaborativeWorkAvailableAnswers",
+        "updateParticipants"
+      ]
+    },
+    {
+      "_id": "5f32de52d09b28b766ea8ac0",
+      "label": "Criar mala direta",
+      "name": "directMessageCreate",
+      "methods": [
+        "createMessage",
+        "userReadPerPage",
+        "readUserSentMails",
+        "attachDocument"
+      ]
+    },
+    {
+      "_id": "5f51564ef0466ee32e0bf5b5",
+      "label": "Ler mala direta",
+      "name": "directMessageRead",
+      "methods": [
+        "readUserAvailableMails",
+        "updateUserReadMails",
+        "readAllUserMails"
+      ]
+    },
+    {
+      "_id": "5fd963ba5b09a4a6ea040108",
+      "label": "Corrigir trabalhos collaborativos",
+      "name": "collaborativeWorkAnswerCorrect",
+      "methods": [
+        "readAll",
+        "readCollaborativeWorkSentAnswers",
+        "downloadZipAnswers",
+        "downloadFileAnswer"
+      ]
+    },
+    {
+      "_id": "613b3d49bd72db11081da33e",
+      "label": "Criar testes",
+      "name": "ehqTestCreate",
+      "methods": [
+        "testCreate"
+      ]
+    },
+    {
+      "_id": "61426206dbd8914b9f30a2e8",
+      "label": "Ler testes",
+      "name": "ehqTestRead",
+      "methods": [
+        "readAllTest",
+        "testReadPerId"
+      ]
+    },
+    {
+      "_id": "614271ffeaeec5f5f9290139",
+      "label": "Atualizar testes",
+      "name": "ehqTestUpdate",
+      "methods": [
+        "testUpdate"
+      ]
+    },
+    {
+      "_id": "61427dbf7827b78e57bb6565",
+      "label": "Deletar testes",
+      "name": "ehqTestDelete",
+      "methods": [
+        "testDelete",
+        "removeTest"
+      ]
+    },
+    {
+      "_id": "61428bc78312ccc8ed640340",
+      "label": "Monitorar no testes",
+      "name": "ehqMonitorActions",
+      "methods": [
+        "monitorReadTest",
+        "monitorTestEnter"
+      ]
+    },
+    {
+      "_id": "61704980c34ae5fc74ef1c20",
+      "label": "Realizar teste",
+      "name": "ehqStudentActions",
+      "methods": [
+        "studentGetClasses",
+        "studentTestEnter",
+        "studentGetTest",
+        "studentQuestionAnswer"
+      ]
+    },
+    {
+      "_id": "6171f85bfa1557d69aed1096",
+      "label": "Corrigir testes",
+      "name": "ehqCorrectTest",
+      "methods": [
+        "teacherTestRead",
+        "teacherTestApplicationRead"
+      ]
+    }
+  ]
+}

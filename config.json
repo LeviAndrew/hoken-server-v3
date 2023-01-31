@@ -1,0 +1,65 @@
+{
+  "images": {
+    "favicon": "resources/images/favicon.ico"
+  },
+  "resourcesPaths": [
+    "tmp",
+    "drive",
+    "collaborativeWorkAnswers"
+  ],
+  "drive": {
+    "acceptedTypes": [
+      "application/vnd.ms-excel",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/octet-stream",
+      "application/pdf",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "application/msword",
+      "application/rtf",
+      "application/vnd.mspowerpoint",
+      "application/zip",
+      "application/x-rar-compressed",
+      "application/xhtml+xml",
+      "application/vnd.ms-powerpoint",
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+      "application/vnd.ms-visio.drawing",
+      "text/plain",
+      "text/html",
+      "texto/simples",
+      "image/png",
+      "timage/x-citrix-png",
+      "image/x-png",
+      "image/jpeg",
+      "image/x-citrix-jpeg"
+    ]
+  },
+  "directories": {
+    "i18n": {
+      "mainPath": "locale",
+      "defaultI18N": "pt-Br",
+      "i18n": "views"
+    }
+  },
+  "db": {
+    "mongodb": {
+      "host": "localhost",
+      "name": "Hoken",
+      "erase_db": false,
+      "fixtures": "test/fixtures/production"
+    }
+  },
+  "server": {
+    "https": true,
+    "domain": "localhost",
+    "port": 5000,
+    "httpsPort": 443
+  },
+  "eventConfig": {
+    "wildcard": true,
+    "newListener": true,
+    "maxListeners": 2000
+  },
+  "test": {
+    "minutesLimit": 10
+  }
+}

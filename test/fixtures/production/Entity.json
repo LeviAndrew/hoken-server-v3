@@ -1,0 +1,148 @@
+{
+  "model": "entity",
+  "data": [
+    {
+      "_id": "5de991c539a92eec6b7b02b1",
+      "name": "UDESC",
+      "children": [
+        "5deaaf4b4f0a79239876b867",
+        "5deaaf4b7ab2d2e58932375e",
+        "5df23718ea2395981facaf9c",
+        "5df2385fa387958248d292a1",
+        "5df28d8530e7804e0a107af4",
+        "5df5401067a054bc865294f1",
+        "5df3dc0a32468d94c02473d7",
+        "5df3dc1221cf63071067c3dc",
+        "5df3dc1864ac43ea23c20180"
+      ],
+      "modules": [
+        "5de991c503156be357481010",
+        "5e18dcd386fdca099722c325",
+        "5f32decc365e4241da9df4e1",
+        "6126d21b027525bb36644e7b"
+      ],
+      "users": [
+        "59d418c0659c0ab8386f19e3",
+        "5e4147f1cb6de716f4b92678"
+      ],
+      "visible": true
+    },
+    {
+      "_id": "5deaaf4b4f0a79239876b867",
+      "name": "Invisivel para teste",
+      "parents": [
+        "5de991c539a92eec6b7b02b1"
+      ],
+      "modules": [
+        "5de991c503156be357481010"
+      ],
+      "users": [
+        "59d418c0659c0ab8386f19e3"
+      ],
+      "visible": false
+    },
+    {
+      "_id": "5deaaf4b7ab2d2e58932375e",
+      "name": "filha visivel da udesc",
+      "parents": [
+        "5de991c539a92eec6b7b02b1"
+      ],
+      "modules": [
+        "5de991c503156be357481010"
+      ],
+      "children": [
+        "5dfbfb37af7cebb32e87c9d4"
+      ],
+      "visible": true
+    },
+    {
+      "_id": "5df23718ea2395981facaf9c",
+      "name": "outra filha da udesc",
+      "parents": [
+        "5de991c539a92eec6b7b02b1"
+      ],
+      "modules": [
+        "5de991c503156be357481010"
+      ],
+      "visible": true
+    },
+    {
+      "_id": "5df2385fa387958248d292a1",
+      "name": "filha da udesc",
+      "parents": [
+        "5de991c539a92eec6b7b02b1"
+      ],
+      "modules": [
+        "5de991c503156be357481010"
+      ],
+      "visible": true
+    },
+    {
+      "_id": "5df28d8530e7804e0a107af4",
+      "name": "ESAG",
+      "parents": [
+        "5de991c539a92eec6b7b02b1"
+      ],
+      "modules": [
+        "5de991c503156be357481010"
+      ],
+      "visible": true
+    },
+    {
+      "_id": "5df3dc0a32468d94c02473d7",
+      "name": "Noturno",
+      "parents": [
+        "5de991c539a92eec6b7b02b1"
+      ],
+      "modules": [
+        "5de991c503156be357481010"
+      ],
+      "visible": false
+    },
+    {
+      "_id": "5df3dc1221cf63071067c3dc",
+      "name": "Vespertino",
+      "parents": [
+        "5de991c539a92eec6b7b02b1"
+      ],
+      "modules": [
+        "5de991c503156be357481010"
+      ],
+      "visible": false
+    },
+    {
+      "_id": "5df3dc1864ac43ea23c20180",
+      "name": "Matutino",
+      "parents": [
+        "5de991c539a92eec6b7b02b1"
+      ],
+      "modules": [
+        "5de991c503156be357481010"
+      ],
+      "visible": false
+    },
+    {
+      "_id": "5df5401067a054bc865294f1",
+      "name": "inativa",
+      "parents": [
+        "5de991c539a92eec6b7b02b1"
+      ],
+      "modules": [
+        "5de991c503156be357481010"
+      ],
+      "visible": true,
+      "activate": false
+    },
+    {
+      "_id": "5dfbfb37af7cebb32e87c9d4",
+      "name": "filha filha udesc",
+      "parents": [
+        "5deaaf4b7ab2d2e58932375e"
+      ],
+      "modules": [
+        "5de991c503156be357481010"
+      ],
+      "visible": true
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "model": "module",
+  "data": [
+    {
+      "_id": "5de991c503156be357481010",
+      "label": "Gerenciamento",
+      "name": "management",
+      "actions": [
+        "5de991c57b8ae816e101200b",
+        "5defceef354e4e8eba085749",
+        "5defd351e4bef0c13459991f",
+        "5df0e38406851f0768c96cc8",
+        "5df1317dc8a6ea21c5afd699",
+        "5df15be7887d9411e5f2d9d4",
+        "5df239050637645f0dba4d4d",
+        "5df241e000f029c61e7233d3",
+        "5df28d8530e7804e0a107af4",
+        "5df532540b367ca0a8bd5fef",
+        "5df7b9fd3713dc35f9417353",
+        "5df7f25d380b24465070597a",
+        "5df80aa78835ab6461e9c813",
+        "5df8186eced1b393b1dd66e6",
+        "5df8ed8bf6abf3e3c224c940",
+        "5df9245bffe01f57b0991b9a",
+        "5df95aa6467efe9f4145f4f7",
+        "5dfbcbad665f456ebbbdca71",
+        "5dfbe1bba95709b4e4e20b0f",
+        "5dfcbe4e69836b8d79aad532",
+        "5fa40883a8619b9dba70078b"
+      ]
+    },
+    {
+      "_id": "5e18dcd386fdca099722c325",
+      "label": "Material de apoio",
+      "name": "supportResource",
+      "actions": [
+        "5e18e70b458749e3c67fcf91",
+        "5e1f0d039c078362897a3da2",
+        "5e1f50ca160a185965d1dda4",
+        "5e1f7397cdfeba7de257eda9",
+        "5e206b3083806410a8d8321d"
+      ]
+    },
+    {
+      "_id": "5e2846d994dab8ed5a80c66b",
+      "label": "Trabalho colaborativo",
+      "name": "collaborativeWork",
+      "actions": [
+        "5e284176c9cc1d83c2dae57a",
+        "5e2f3573afeb486e0e327e80",
+        "5e2f45a92018575b2af4dcdd",
+        "5e3043a7397279c56edbe4cf",
+        "5e32e80c8f87417645835e50",
+        "5f1e3a15a82d6447c52894dc",
+        "5fd963ba5b09a4a6ea040108"
+      ]
+    },
+    {
+      "_id": "5f32decc365e4241da9df4e1",
+      "label": "Mala direta",
+      "name": "directMessage",
+      "actions": [
+        "5f32de52d09b28b766ea8ac0",
+        "5f51564ef0466ee32e0bf5b5"
+      ]
+    },
+    {
+      "_id": "6126d21b027525bb36644e7b",
+      "label": "EHQ",
+      "name": "ehq",
+      "actions": [
+        "613b3d49bd72db11081da33e",
+        "61426206dbd8914b9f30a2e8",
+        "614271ffeaeec5f5f9290139",
+        "61427dbf7827b78e57bb6565",
+        "61428bc78312ccc8ed640340",
+        "61704980c34ae5fc74ef1c20",
+        "6171f85bfa1557d69aed1096"
+      ]
+    }
+  ]
+}

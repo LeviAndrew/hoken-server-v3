@@ -1,0 +1,39 @@
+{
+  "images": {
+    "favicon": "resources/images/favicon.ico"
+  },
+  "resourcesPaths": [
+    "tmp",
+    "drive",
+    "collaborativeWorkAnswers"
+  ],
+  "directories": {
+    "i18n": {
+      "mainPath": "locale",
+      "defaultI18N": "pt-Br",
+      "i18n": "views"
+    }
+  },
+  "db": {
+    "mongodb": {
+      "host": "localhost",
+      "name": "HokenTest",
+      "erase_db": true,
+      "fixtures": "test/fixtures/production"
+    }
+  },
+  "server": {
+    "https": false,
+    "domain": "localhost",
+    "port": 5000,
+    "httpsPort": 433
+  },
+  "eventConfig": {
+    "wildcard": true,
+    "newListener": true,
+    "maxListeners": 2000
+  },
+  "test": {
+    "minutesLimit": 10
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "model": "user",
+  "data": [
+    {
+      "_id": "59d418c0659c0ab8386f19e3",
+      "name": "Admin",
+      "surname": "Admin",
+      "birthday": 568087200000,
+      "email": "admin@admin.com",
+      "password": "admin",
+      "matriculation": "123456789",
+      "document": {
+        "documentType": "CPF",
+        "documentNumber": "06111052926"
+      },
+      "entities": [
+        {
+          "date": 568087200000,
+          "entity": "5de991c539a92eec6b7b02b1",
+          "privileges": "5de991c51da356b213614e85"
+        },
+        {
+          "date": 568087200000,
+          "entity": "5deaaf4b4f0a79239876b867",
+          "privileges": "5de991c51da356b213614e85"
+        }
+      ],
+      "drive": {
+        "canUpdate": true,
+        "root": {
+          "folders": [],
+          "files": [],
+          "externalLinks": []
+        }
+      }
+    },
+    {
+      "_id": "5e4147f1cb6de716f4b92678",
+      "name": "Admin",
+      "surname": "Admin",
+      "birthday": 568087200000,
+      "email": "labtic@admin.com",
+      "password": "admin",
+      "matriculation": "123456710",
+      "document": {
+        "documentType": "CPF",
+        "documentNumber": "06111052962"
+      },
+      "entities": [
+        {
+          "date": 568087200000,
+          "entity": "5de991c539a92eec6b7b02b1",
+          "privileges": "5de991c51da356b213614e85"
+        },
+        {
+          "date": 568087200000,
+          "entity": "5deaaf4b4f0a79239876b867",
+          "privileges": "5de991c51da356b213614e85"
+        }
+      ],
+      "drive": {
+        "canUpdate": true,
+        "root": {
+          "folders": [],
+          "files": [],
+          "externalLinks": []
+        }
+      }
+    },
+    {
+      "_id": "610c1d11ac489fa5813edaae",
+      "name": "Levi",
+      "surname": "Admin",
+      "birthday": 568087200000,
+      "email": "levi@admin.com",
+      "password": "admin",
+      "matriculation": "16200790",
+      "document": {
+        "documentType": "CPF",
+        "documentNumber": "01097820386"
+      },
+      "entities": [
+        {
+          "date": 568087200000,
+          "entity": "5de991c539a92eec6b7b02b1",
+          "privileges": "5de991c51da356b213614e85"
+        },
+        {
+          "date": 568087200000,
+          "entity": "5deaaf4b4f0a79239876b867",
+          "privileges": "5de991c51da356b213614e85"
+        }
+      ],
+      "drive": {
+        "canUpdate": true,
+        "root": {
+          "folders": [],
+          "files": [],
+          "externalLinks": []
+        }
+      }
+    },
+    {
+      "_id": "617016175a10aabd25f60a7f",
+      "name": "Student",
+      "surname": "Test",
+      "birthday": 568087200000,
+      "email": "student@test.com",
+      "password": "123456",
+      "matriculation": "90007162",
+      "document": {
+        "documentType": "CPF",
+        "documentNumber": "354612348"
+      },
+      "entities": [
+        {
+          "date": 568087200000,
+          "entity": "5de991c539a92eec6b7b02b1",
+          "privileges": "5de991c51da356b213614e85"
+        }
+      ],
+      "drive": {
+        "canUpdate": true,
+        "root": {
+          "folders": [],
+          "files": [],
+          "externalLinks": []
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+export {SupportResource} from './managers/SupportResource'

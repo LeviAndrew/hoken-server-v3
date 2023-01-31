@@ -1,0 +1,25 @@
+{
+  "statics": [
+    {
+      "path": "/",
+      "location": "../hoken-browser/dist"
+    },
+    {
+      "path": "/images/",
+      "location": "resources/images/"
+    },
+    {
+      "path": "/documents/",
+      "location": "resources/documents/"
+    }
+  ],
+  "openEndpoints": [
+    "/api/open/",
+    "/api/locale/"
+  ],
+  "openAPI": [
+    "/api/login/hoken",
+    "/api/login/idUdesc",
+    "/favicon.ico"
+  ]
+}

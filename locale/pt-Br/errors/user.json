@@ -1,0 +1,24 @@
+{
+  "userNotFound": {
+    "title": "Email errado!",
+    "description": "Desculpe amigo, mas não encontrei esse email que você digitou nos meus registros.<br/> Não quero me meter na sua vida, mas você escreveu errado tá.",
+    "buttons": [
+      {
+        "label": "Ok",
+        "method": null
+      }
+    ],
+    "type": "userNotFound"
+  },
+  "wrongPassword": {
+    "title": "Senha não confere!",
+    "description": "Então, seu email até está aqui nos meus registros, mas essa senha ai não está certa não,<br/> você esqueceu ou vacilou na digitação?",
+    "buttons": [
+      {
+        "label": "Ok",
+        "method": null
+      }
+    ],
+    "type": "wrongPassword"
+  }
+}

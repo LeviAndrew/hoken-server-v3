@@ -1,0 +1,10 @@
+{
+  "routeError": "Sem autorização para essa rota.",
+  "addUserSuccess": "Usuário adicionado com sucesso!",
+  "updateUserSuccess": "Usuário atualizado com sucesso!",
+  "removeUserSuccess": "Usuário removido com sucesso!",
+  "addUserError": "Erro ao criar usuário!",
+  "updateUserError": "Erro ao atualizar usuário!",
+  "removeUserError": "Erro ao remover usuário!",
+  "unexpectedError": "Ocorreu um erro inesperado, tente novamente. :("
+}

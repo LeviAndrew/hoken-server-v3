@@ -1,0 +1,225 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "1.Open",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/1_OpenAPI.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "2.User",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/2_UserAPI.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "3.1.ManagementPrivileges",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/3.1.ManagementAPI_privileges.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "3.2.ManagementEntity",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/3.2.ManagementeAPI_entity.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "3.3.ManagementUser",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/3.3.ManagementAPI_user.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "4.1.Drive",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/4.1.DriveAPI.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "5.1.SupportResource",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/5.1.SupportResourceAPI.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "6.1.CollaborativeWork",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/6.1.CollaborativeWork.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "6.2.CollaborativeWorkAnswer",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/6.2.CollaborativeWorkAnswer.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "7.1.DirectMessage",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/7.1.DirectMessage.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "8.EHQ",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/8.EHQ.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+    ]
+}

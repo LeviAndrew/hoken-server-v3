@@ -1,0 +1,12 @@
+{
+  "COURSE_TYPE": {
+    "enum": [
+      "doctorate",
+      "master"
+    ],
+    "default": ""
+  },
+  "questionTypes": ["summation", "multipleChoice", "objective", "trueOrFalse", "dissertation"],
+  "visibility": ["private", "public"],
+  "difficulty": ["easy", "medium", "hard"]
+}
