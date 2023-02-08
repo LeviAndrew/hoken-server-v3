@@ -195,7 +195,7 @@ describe('4.1.Drive', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("folders", "files", "_id");
+                expect(response.body.data).to.have.all.keys("externalLinks", "folders", "files", "_id");
                 expect(response.body.data.folders).to.be.instanceOf(Array);
                 response.body.data.folders.forEach(folder => {
                   expect(folder).to.be.instanceOf(Object);
@@ -255,7 +255,7 @@ describe('4.1.Drive', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("folders", "files", "_id");
+                expect(response.body.data).to.have.all.keys("externalLinks", "folders", "files", "_id");
                 expect(response.body.data.folders).to.be.instanceOf(Array);
                 response.body.data.folders.forEach(folder => {
                   expect(folder).to.be.instanceOf(Object);
@@ -358,7 +358,7 @@ describe('4.1.Drive', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("folders", "files", "_id");
+                expect(response.body.data).to.have.all.keys("externalLinks", "folders", "files", "_id");
                 expect(response.body.data.folders).to.be.instanceOf(Array);
                 response.body.data.folders.forEach(folder => {
                   expect(folder).to.be.instanceOf(Object);
@@ -442,7 +442,7 @@ describe('4.1.Drive', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("folders", "files", "_id");
+                expect(response.body.data).to.have.all.keys("externalLinks", "folders", "files", "_id");
                 expect(response.body.data.folders).to.be.instanceOf(Array);
                 response.body.data.folders.forEach(folder => {
                   expect(folder).to.be.instanceOf(Object);
@@ -507,7 +507,7 @@ describe('4.1.Drive', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("folders", "files", "_id");
+                expect(response.body.data).to.have.all.keys("externalLinks", "folders", "files", "_id");
                 expect(response.body.data.folders).to.be.instanceOf(Array);
                 response.body.data.folders.forEach(folder => {
                   expect(folder).to.be.instanceOf(Object);
@@ -697,7 +697,7 @@ describe('4.1.Drive', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("folders", "files", "_id");
+                expect(response.body.data).to.have.all.keys("externalLinks", "folders", "files", "_id");
                 expect(response.body.data.folders).to.be.instanceOf(Array);
                 response.body.data.folders.forEach(folder => {
                   expect(folder).to.be.instanceOf(Object);
@@ -779,7 +779,7 @@ describe('4.1.Drive', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("folders", "files", "_id");
+                expect(response.body.data).to.have.all.keys("externalLinks", "folders", "files", "_id");
                 expect(response.body.data.folders).to.be.instanceOf(Array);
                 response.body.data.folders.forEach(folder => {
                   expect(folder).to.be.instanceOf(Object);
@@ -882,7 +882,7 @@ describe('4.1.Drive', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("folders", "files", "_id");
+                expect(response.body.data).to.have.all.keys("externalLinks", "folders", "files", "_id");
                 expect(response.body.data.folders).to.be.instanceOf(Array);
                 response.body.data.folders.forEach(folder => {
                   expect(folder).to.be.instanceOf(Object);
@@ -971,7 +971,7 @@ describe('4.1.Drive', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("folders", "files", "_id");
+                expect(response.body.data).to.have.all.keys("externalLinks", "folders", "files", "_id");
                 expect(response.body.data.folders).to.be.instanceOf(Array);
                 response.body.data.folders.forEach(folder => {
                   expect(folder).to.be.instanceOf(Object);

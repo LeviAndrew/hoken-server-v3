@@ -127,7 +127,7 @@ describe('5.1.SupportResource', () => {
                 expect(response.body.data).to.be.instanceOf(Array);
                 response.body.data.forEach(resource => {
                   expect(resource).to.be.instanceOf(Object);
-                  expect(resource).to.have.all.keys("visibility", "removed", "name", "entityId", "folder", "owner", "id", "createdAt", "updatedAt");
+                  expect(resource).to.have.all.keys("date", "removed", "name", "path", "owner", "id", "createdAt", "updatedAt");
                 });
                 done();
               });
@@ -218,8 +218,8 @@ describe('5.1.SupportResource', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("_id", "name", "date", "id");
-                parentId = response.body.data.id;
+                expect(response.body.data).to.have.all.keys("folder", "name", "id");
+                parentId = response.body.data.folder.id;
                 done();
               });
           });
@@ -498,7 +498,7 @@ describe('5.1.SupportResource', () => {
 
           it('read folder', (done) => {
             chai.request(baseURL)
-              .get(`/api/drive/folder?parentId=${folders[2].id}`)
+              .get(`/api/drive/folder?parentId=${folders[1].id}`)
               .set('authentication-key', loggedUser.authenticationKey)
               .set('access-key', loggedUser.accessKey)
               .end((error, response) => {
@@ -532,7 +532,7 @@ describe('5.1.SupportResource', () => {
                 expect(response.body.data).to.be.instanceOf(Array);
                 response.body.data.forEach(resource => {
                   expect(resource).to.be.instanceOf(Object);
-                  expect(resource).to.have.all.keys("visibility", "removed", "name", "entityId", "folder", "owner", "id", "createdAt", "updatedAt");
+                  expect(resource).to.have.all.keys("visibility", "removed", "name", "entityId", "externalLink", "owner", "id", "createdAt", "updatedAt");
                 });
                 done();
               });
@@ -557,7 +557,7 @@ describe('5.1.SupportResource', () => {
                 expect(response.body.data).to.be.instanceOf(Array);
                 response.body.data.forEach(resource => {
                   expect(resource).to.be.instanceOf(Object);
-                  expect(resource).to.have.all.keys("visibility", "removed", "name", "entityId", "folder", "owner", "id", "createdAt", "updatedAt");
+                  expect(resource).to.have.all.keys("path", "removed", "name", "date", "link", "owner", "id", "createdAt", "updatedAt");
                 });
                 done();
               });
@@ -579,7 +579,7 @@ describe('5.1.SupportResource', () => {
                 expect(response.body.data).to.be.instanceOf(Array);
                 response.body.data.forEach(resource => {
                   expect(resource).to.be.instanceOf(Object);
-                  expect(resource).to.have.all.keys("visibility", "removed", "name", "entityId", "folder", "owner", "id", "createdAt", "updatedAt");
+                  expect(resource).to.have.all.keys("visibility", "removed", "name", "entityId", "externalLink", "owner", "id", "createdAt", "updatedAt");
                 });
                 done();
               });
@@ -734,14 +734,13 @@ describe('5.1.SupportResource', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data.folders).to.be.instanceOf(Array);
-                response.body.data.folders.forEach(folder => {
-                  expect(folder).to.be.instanceOf(Object);
-                  expect(folder).to.have.all.keys("_id", "name", "date", "id");
-                });
-                response.body.data.files.forEach(files => {
-                  expect(files).to.be.instanceOf(Object);
-                  expect(files).to.have.all.keys("_id", "name", "date", "id", "extension", "size");
+                expect(response.body.data).to.have.all.keys("id", "child", "name");
+                expect(response.body.data.child).to.be.instanceOf(Object);
+                expect(response.body.data.child).to.have.all.keys("files");
+                expect(response.body.data.child.files).to.be.instanceOf(Array);
+                response.body.data.child.files.forEach(file => {
+                  expect(file).to.be.instanceOf(Object);
+                  expect(file).to.have.all.keys("_id", "name", "date", "id", "extension", "size");
                 });
                 done();
               });
@@ -891,7 +890,7 @@ describe('5.1.SupportResource', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("visibility", "name", "id", "endDate", "initDate");
+                expect(response.body.data).to.have.all.keys("externalLink", "visibility", "name", "id", "endDate", "initDate");
                 done();
               });
           });
@@ -919,6 +918,8 @@ describe('5.1.SupportResource', () => {
               .end((error, response) => {
                 expect(response.body).to.be.instanceof(Object);
                 expect(response.body).to.have.all.keys("success", "data");
+                expect(response.body.data).to.be.instanceof(Object);
+                expect(response.body.data).to.have.all.keys("_id", "externalLinks", "files", "folders");
                 rootChildren = response.body.data;
                 done();
               });
@@ -926,12 +927,14 @@ describe('5.1.SupportResource', () => {
 
           it('read folder', (done) => {
             chai.request(baseURL)
-              .get(`/api/drive/folder?parentId=${rootChildren.folders[2].id}`)
+              .get(`/api/drive/folder?parentId=${rootChildren.folders[1].id}`)
               .set('authentication-key', loggedUser.authenticationKey)
               .set('access-key', loggedUser.accessKey)
               .end((error, response) => {
                 expect(response.body).to.be.instanceof(Object);
                 expect(response.body).to.have.all.keys("success", "data");
+                expect(response.body.data).to.be.instanceof(Object);
+                expect(response.body.data).to.have.all.keys("externalLinks", "files", "folders");
                 readFolderTest = response.body.data;
                 done();
               });
@@ -1001,7 +1004,7 @@ describe('5.1.SupportResource', () => {
 
           it('remove file on Support Resource', (done) => {
             chai.request(baseURL)
-              .delete(`/api/supportResource/file/${readFolderTest.files[0].id}/?parentId=${rootChildren.folders[2].id}`)
+              .delete(`/api/supportResource/file/${readFolderTest.files[0].id}/?parentId=${rootChildren.folders[1].id}`)
               .set('authentication-key', loggedUser.authenticationKey)
               .set('access-key', loggedUser.accessKey)
               .end((error, response) => {
@@ -1046,7 +1049,7 @@ describe('5.1.SupportResource', () => {
 
           it('remove folder MA from Drive', (done) => {
             chai.request(baseURL)
-              .delete(`/api/supportResource/folder/${readFolderTest.folders[0].id}/?parentId=${rootChildren.folders[2].id}`)
+              .delete(`/api/supportResource/folder/${readFolderTest.folders[0].id}/?parentId=${rootChildren.folders[1].id}`)
               .set('authentication-key', loggedUser.authenticationKey)
               .set('access-key', loggedUser.accessKey)
               .end((error, response) => {
@@ -1061,7 +1064,7 @@ describe('5.1.SupportResource', () => {
 
           it('remove MA on Drive', (done) => {
             chai.request(baseURL)
-              .delete(`/api/supportResource/folder/${rootChildren.folders[2].id}`)
+              .delete(`/api/supportResource/folder/${rootChildren.folders[1].id}`)
               .set('authentication-key', loggedUser.authenticationKey)
               .set('access-key', loggedUser.accessKey)
               .end((error, response) => {
@@ -1106,7 +1109,7 @@ describe('5.1.SupportResource', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("folders", "files", "_id");
+                expect(response.body.data).to.have.all.keys("externalLinks", "folders", "files", "_id");
                 expect(response.body.data.folders).to.be.instanceOf(Array);
                 response.body.data.folders.forEach(folder => {
                   expect(folder).to.be.instanceOf(Object);

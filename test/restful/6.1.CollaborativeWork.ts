@@ -125,7 +125,7 @@ describe('6.1.CollaborativeWork', () => {
               .set('access-key', loggedUser.accessKey)
               .send({
                 collaborativeWorkId: collaborativeWork.id,
-                fileId: [rootChildren.files[0].id, rootChildren.files[1].id],
+                fileId: [rootChildren.files[0].id],
               })
               .end((error, response) => {
                 expect(response.body).to.be.instanceof(Object);
@@ -156,7 +156,7 @@ describe('6.1.CollaborativeWork', () => {
                 expect(response.body.data).to.be.instanceOf(Array);
                 response.body.data.forEach(file => {
                   expect(file).to.be.instanceOf(Object);
-                  expect(file).to.have.all.keys("name", "extension", "date", "size", "id");
+                  expect(file).to.have.all.keys("name", "link", "date", "id");
                 });
                 done();
               });
@@ -688,10 +688,10 @@ describe('6.1.CollaborativeWork', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("id", "externalLink");
+                expect(response.body.data).to.have.all.keys("id", "externalLink", "name");
                 expect(response.body.data.externalLink).to.be.instanceOf(Array);
                 response.body.data.externalLink.forEach(link => {
-                  expect(link).to.have.all.keys("_id", "link", "name");
+                  expect(link).to.have.all.keys("_id", "id", "link", "name", "updatedAt");
                 });
                 done();
               });
@@ -786,14 +786,14 @@ describe('6.1.CollaborativeWork', () => {
               .set('access-key', loggedUser.accessKey)
               .send({
                 id: collaborativeWork.id,
-                linkId: collaborativeWork.externalLink[0],
+                linkId: collaborativeWork.externalLink[0].id,
               })
               .end((error, response) => {
                 expect(response.body).to.be.instanceof(Object);
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("name", "id", "file");
+                expect(response.body.data).to.have.all.keys("name", "id", "externalLink");
                 done();
               });
           });
@@ -904,7 +904,7 @@ describe('6.1.CollaborativeWork', () => {
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
                 expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("maxPerTeam", "initialDate", "endDate", "id");
+                expect(response.body.data).to.have.all.keys("maxPerTeam", "id");
                 done();
               });
           });

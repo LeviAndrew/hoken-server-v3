@@ -457,7 +457,7 @@ describe('6.2.CollaborativeWorkAnswer', () => {
               .send({
                 collaborativeWorkAnswerId: collaborativeWorkToAnswer.collaborativeWorkAnswerId,
                 teamId: team._id,
-                participantId: "5e4147f1cb6de716f4b92678",
+                participantId: "610c1d11ac489fa5813edaae",
               })
               .end((error, response) => {
                 expect(response.body).to.be.instanceof(Object);
@@ -747,10 +747,12 @@ describe('6.2.CollaborativeWorkAnswer', () => {
                 expect(response.body).to.be.instanceof(Object);
                 expect(response.body).to.have.all.keys("success", "data");
                 expect(response.body.success).to.be.true;
-                expect(response.body.data).to.be.instanceOf(Object);
-                expect(response.body.data).to.have.all.keys("answer");
-                expect(response.body.data.answer).to.be.instanceOf(Object);
-                expect(response.body.data.answer).to.have.all.keys("_id", "maxPerTeam", "id", "teams");
+                expect(response.body.data).to.be.instanceOf(Array);
+                response.body.data.forEach(answer => {
+                  expect(answer).to.be.instanceOf(Object);
+                  expect(answer).to.have.all.keys("_id", "maxPerTeam", "teamId", "initialDate", "endDate", "collaborativeWorkAnswerId");
+                  expect(answer.teamId).to.be.instanceOf(Array);
+                });
                 done();
               });
           });
