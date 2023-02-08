@@ -1,0 +1,12 @@
+{
+    "model": "apiSetting",
+    "data": [
+      {
+        "_id": "59d418c0659c0ab8386f19e4",
+        "name": "Kraken",
+        "url": "kraken.udesc.br",
+        "email": "admin@admin.com",
+        "apiKey": "5fa93fc258821729e4d47ad7"
+      }
+    ]
+  }

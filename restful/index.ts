@@ -9,6 +9,7 @@ import {DriveRest} from './apis/DriveRest'
 import {SupportResourceRest} from './apis/SupportResourceRest'
 import {CollaborativeWorkRest} from './apis/CollaborativeWorkRest'
 import {DirectMessageRest} from './apis/DirectMessage'
+import {PlatformRest} from './apis/PlatformRest'
 
 export class InitRestful extends Source {
   private _restfulSet: object;
@@ -26,6 +27,7 @@ export class InitRestful extends Source {
       SupportResourceRest,
       CollaborativeWorkRest,
       DirectMessageRest,
+      PlatformRest,
     };
     for (let restful in this.restfulSet) {
       if(this.restfulSet.hasOwnProperty(restful)) {

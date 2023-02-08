@@ -168,7 +168,7 @@ describe('3.Management - Users', () => {
                 expect(response.body.data).to.be.instanceOf(Array);
                 response.body.data.forEach(user => {
                   expect(user).to.be.instanceOf(Object);
-                  expect(user).to.have.all.keys("name", "surname", "birthday", "email", "matriculation", "document", "entities", "id", "emails");
+                  expect(user).to.have.all.keys("userType", "name", "surname", "birthday", "email", "matriculation", "document", "entities", "id", "emails");
                   expect(user.document).to.be.instanceOf(Object);
                   expect(user.document).to.have.all.keys("documentType", "documentNumber", "id");
                   expect(user.entities).to.be.instanceOf(Array);

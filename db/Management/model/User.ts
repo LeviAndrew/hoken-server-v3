@@ -33,30 +33,30 @@ let schema = new Schema(Object.assign({
   name: {
     type: Schema.Types.String,
     trim: true,
-    required: true
+    required: [true, 'name.required']
   },
   surname: {
     type: Schema.Types.String,
     trim: true,
-    required: true
+    required: [true, 'surname.required']
   },
   birthday: {
     type: Schema.Types.Number,
   },
   email: {
     type: Schema.Types.String,
-    required: true,
+    required: [true, 'email.required'],
     unique: true,
     trim: true,
   },
   password: {
     type: Schema.Types.String,
-    required: true,
+    required: [true, 'password.required'],
     trim: true,
   },
   authenticationKey: {
     type: Schema.Types.String,
-    required: true,
+    required: [true, 'authenticationKeyRequired'],
     unique: true,
     trim: true,
   },
@@ -83,7 +83,25 @@ let schema = new Schema(Object.assign({
       type:Schema.Types.ObjectId,
       ref: 'directMessage',
     }]
-  }
+  },
+  educationalInstitution: {
+    type: Schema.Types.String,
+    trim: true,
+  },
+  platformKey: {
+    type: Schema.Types.ObjectId,
+    ref: 'apiSetting',
+  },
+  userSettings: {
+    type: Schema.Types.ObjectId,
+    ref: 'setting',
+  },
+  userType: {
+    type: Schema.Types.String,
+    required: [true, 'userType.required'],
+    enum: ['admin', 'teacher'],
+    default: 'teacher',
+  },
 }, BaseSchema), schema_options);
 
 let modelSchema = model("user", schema);

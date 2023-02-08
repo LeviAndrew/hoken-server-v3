@@ -431,7 +431,7 @@ export class Management extends BasicHandler {
 
   public async userUpdate(param: defaultParam<userUpdate>) {
     const allowedAttribute = [
-      "name", "surname", "birthday", "email", "password", "matriculation", "document"
+      "name", "surname", "birthday", "email", "password", "matriculation", "document", "educationalInstitution"
     ];
     let required = this.attributeValidator([
       "auth", "aKey", "entityId", "data",
@@ -450,7 +450,7 @@ export class Management extends BasicHandler {
       const user = await this.sendToServer('db.user.update', new UpdateObject({
         query: param.data.id,
         update: this.getUpdateObject(allowedAttribute, param.data.update),
-        select: ["name", "surname", "birthday", "email", "matriculation", "document"],
+        select: ["name", "surname", "birthday", "email", "matriculation", "document", "educationalInstitution"],
       }));
       return await this.returnHandler({
         model: 'user',
@@ -1297,7 +1297,8 @@ interface userUpdate {
     email?: string,
     password?: string,
     matriculation?: string,
-    document?: document
+    document?: document,
+    educationalInstitution?: string
   }
 }
 

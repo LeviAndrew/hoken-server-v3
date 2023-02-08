@@ -430,6 +430,14 @@
         "teacherTestRead",
         "teacherTestApplicationRead"
       ]
+    },
+    {
+      "_id": "63e3e9cb59cbb983712bc333",
+      "label": "Resgistrar Usuários",
+      "name": "userRegister",
+      "methods": [
+        "register"
+      ]
     }
   ]
 }

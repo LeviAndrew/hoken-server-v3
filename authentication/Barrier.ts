@@ -66,7 +66,13 @@ export class Barrier {
     if (await Barrier.openRoute(req.path)) {
       return next();
     }
-    if (req.headers["authentication-key"]) {
+    if (req.path.startsWith('/api/platform') && req.headers["platform-key"]) {
+      const checkReturn = await this.handler.checkPkey(req.headers['platform-key']);
+      if (!checkReturn.success) {
+        return res.status(HTTPStatus.UNAUTHORIZED).send(checkReturn.data);
+      }
+      return next();
+    } else if (req.headers["authentication-key"]) {
       let checkReturn = await this.handler.checkLoggedUser({
         authenticationKey: req.headers["authentication-key"],
         accessKey: req.headers["access-key"],

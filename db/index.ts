@@ -28,6 +28,10 @@ import {
 import {
   DirectMessage
 } from './DirectMessage'
+import {
+  APISetting,
+  Setting
+} from './ESAGames'
 /**
  * Inicia todos os managers.
  */
@@ -47,6 +51,8 @@ let Managers: ManagerMap = {
   Test: new Test(),
   TestApplication: new TestApplication(),
   directMessage: new DirectMessage(),
+  apiSetting: new APISetting(),
+  setting: new Setting(),
 };
 
 export {Managers};

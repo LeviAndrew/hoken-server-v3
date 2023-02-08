@@ -32,7 +32,8 @@
           "files": [],
           "externalLinks": []
         }
-      }
+      },
+      "userType": "admin"
     },
     {
       "_id": "5e4147f1cb6de716f4b92678",
@@ -65,7 +66,8 @@
           "files": [],
           "externalLinks": []
         }
-      }
+      },
+      "userType": "admin"
     },
     {
       "_id": "610c1d11ac489fa5813edaae",
@@ -98,7 +100,8 @@
           "files": [],
           "externalLinks": []
         }
-      }
+      },
+      "userType": "admin"
     },
     {
       "_id": "617016175a10aabd25f60a7f",
