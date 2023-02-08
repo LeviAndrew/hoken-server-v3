@@ -14,10 +14,15 @@ export class UserRest extends BasicRest {
       post: {
         '/user/logout': this.logout.bind(this),
         '/user/password': this.updatePassword.bind(this),
+        '/user/setting': this.createUpdateUserSettings.bind(this),
       },
       get: {
+        '/user/setting': this.getSetting.bind(this),
         '/user/entities': this.entitiesRead.bind(this),
         '/user/entity/children/:entityId': this.entityChildrenRead.bind(this),
+      },
+      delete: {
+        '/user/setting': this.deleteSetting.bind(this),
       }
     };
 
@@ -78,6 +83,52 @@ export class UserRest extends BasicRest {
     response
       .status(HTTPStatus.OK)
       .send(ret);
+  }
+
+  private async getSetting(request, response) {
+    try {
+      const ret = await this.handler.getSetting({
+          auth: request.headers['authentication-key'],
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async createUpdateUserSettings(request, response) {
+    try {
+      const ret = await this.handler.createUpdateUserSettings({
+          auth: request.headers['authentication-key'],
+          data: request.body,
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async deleteSetting(request, response) {
+    try {
+      const ret = await this.handler.deleteSetting({
+          auth: request.headers['authentication-key'],
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
   }
 
 }

@@ -433,10 +433,11 @@
     },
     {
       "_id": "63e3e9cb59cbb983712bc333",
-      "label": "Resgistrar Usuários",
-      "name": "userRegister",
+      "label": "Registrar e Configurar Usuários",
+      "name": "userRegisterSetting",
       "methods": [
-        "register"
+        "register",
+        "setting"
       ]
     }
   ]

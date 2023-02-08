@@ -43,7 +43,7 @@ describe('2.Register', () => {
   
     });
 
-    describe('Register', () => {
+    describe('Register and CRUD Setting', () => {
 
         let entity;
         const actionIndex = 42;
@@ -103,6 +103,116 @@ describe('2.Register', () => {
 
             });
 
+        });
+
+        describe('CRUD Setting', () => {
+
+            describe('Read', () => {
+        
+              it('OK', (done) => {
+                chai.request(baseURL)
+                  .get(`/api/user/${entity.privileges.actions[actionIndex].methods[1]}`)
+                  .set('authentication-key', loggedUser.authenticationKey)
+                  .set('access-key', loggedUser.accessKey)
+                  .end((error, response) => {
+                    expect(response.body).to.be.instanceof(Object);
+                    expect(response.body).to.have.all.keys("success", "data");
+                    expect(response.body.success).to.be.true;
+                    expect(response.body.data).to.be.instanceof(Object);
+                    expect(response.body.data).to.have.all.keys("id", "userSettings");
+                    done();
+                  });
+              });
+        
+            });
+
+            describe('Create/Update', () => {
+        
+              it('create', (done) => {
+                chai.request(baseURL)
+                  .post(`/api/user/${entity.privileges.actions[actionIndex].methods[1]}`)
+                  .set('authentication-key', loggedUser.authenticationKey)
+                  .set('access-key', loggedUser.accessKey)
+                  .send({
+                    async: false,
+                    hasTimer: false,
+                    time: 60,
+                    playersPerTeam: 6,
+                    weekAmount: 20,
+                    demands: [
+                      10, 12, 14, 15, 20, 50, 35, 40, 50, 10, 10, 12, 14, 15, 20, 50, 35, 40, 50
+                    ],
+                  })
+                  .end((error, response) => {
+                    expect(response.body).to.be.instanceof(Object);
+                    expect(response.body).to.have.all.keys("success", "data");
+                    expect(response.body.success).to.be.true;
+                    expect(response.body.data).to.be.instanceof(Object);
+                    expect(response.body.data).to.have.all.keys("async", "timer", "time", "isDefault", "removed", "playersPerTeam", "id", "createdAt", "updatedAt", "weekAmount", "demands");
+                    done();
+                  });
+              });
+        
+              it('update', (done) => {
+                chai.request(baseURL)
+                  .post(`/api/user/${entity.privileges.actions[actionIndex].methods[1]}`)
+                  .set('authentication-key', loggedUser.authenticationKey)
+                  .set('access-key', loggedUser.accessKey)
+                  .send({
+                    async: true,
+                    hasTimer: true,
+                    time: 60,
+                    weekAmount: 30,
+                    demands: [
+                      10, 12, 14, 15, 20, 50, 35, 40, 50, 10, 10, 12, 14, 15, 20, 50, 35, 40, 50
+                    ]
+                  })
+                  .end((error, response) => {
+                    expect(response.body).to.be.instanceof(Object);
+                    expect(response.body).to.have.all.keys("success", "data");
+                    expect(response.body.success).to.be.true;
+                    expect(response.body.data).to.be.instanceof(Object);
+                    expect(response.body.data).to.have.all.keys("async", "timer", "time", "isDefault", "removed", "playersPerTeam", "id", "createdAt", "updatedAt", "__v", "weekAmount", "demands");
+                    done();
+                  });
+              });
+        
+            });
+
+            describe('Delete', () => {
+        
+              it('OK', (done) => {
+                chai.request(baseURL)
+                  .delete(`/api/user/${entity.privileges.actions[actionIndex].methods[1]}`)
+                  .set('authentication-key', loggedUser.authenticationKey)
+                  .set('access-key', loggedUser.accessKey)
+                  .end((error, response) => {
+                    expect(response.body).to.be.instanceof(Object);
+                    expect(response.body).to.have.all.keys("success", "data");
+                    expect(response.body.success).to.be.true;
+                    expect(response.body.data).to.be.instanceof(Object);
+                    expect(response.body.data).to.have.all.keys("_id", "async", "timer", "time", "playersPerTeam", "isDefault", "weekAmount", "demands", "removed", "id", "createdAt", "updatedAt", "__v");
+                    done();
+                  });
+              });
+
+              it('AFTER: Read Setting', (done) => {
+                chai.request(baseURL)
+                  .get(`/api/user/${entity.privileges.actions[actionIndex].methods[1]}`)
+                  .set('authentication-key', loggedUser.authenticationKey)
+                  .set('access-key', loggedUser.accessKey)
+                  .end((error, response) => {
+                    expect(response.body).to.be.instanceof(Object);
+                    expect(response.body).to.have.all.keys("success", "data");
+                    expect(response.body.success).to.be.true;
+                    expect(response.body.data).to.be.instanceof(Object);
+                    expect(response.body.data).to.have.all.keys("id", "userSettings");
+                    done();
+                  });
+              });
+        
+            });
+        
         });
 
     });

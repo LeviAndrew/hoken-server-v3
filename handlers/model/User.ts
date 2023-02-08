@@ -220,6 +220,178 @@ export class User extends BasicHandler {
     }
   }
 
+  public async getSetting(param: defaultParam) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth',
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const
+        userId: string = await this.getUserIdByAuth(param.auth),
+        promises = await Promise.all([
+          this.sendToServer('db.user.read', new FindObject({
+            query: userId,
+            select: 'id userSettings',
+            populate: [
+              {
+                path: 'userSettings',
+              }
+            ]
+          })),
+          this.sendToServer('db.setting.read', new FindObject({
+            findOne: true,
+            query: {
+              isDefault: true,
+            },
+          })),
+        ]);
+      for (let i = 0; i < promises.length; i++) {
+        if (!promises[i].data.success || promises[i].data.error) return await this.returnHandler({
+          model,
+          data: {error: 'readError'}
+        });
+      }
+      let
+        ret = promises[0].data.success;
+      if (!ret.userSettings) ret['userSettings'] = promises[1].data.success;
+      return await this.returnHandler({
+        model,
+        data: {success: ret},
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
+  public async createUpdateUserSettings(param: createUpdateUserSettings) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth', 'data',
+        [
+          "async", "hasTimer", "time", 'weekAmount', 'demands'
+        ]
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      delete param.data.playersPerTeam;
+      if (param.data.weekAmount > param.data.demands.length) {
+        const diff = param.data.weekAmount - param.data.demands.length,
+          diffDemands = [];
+        for (let i = 0; i < diff; i++) {
+          diffDemands.push(0);
+        }
+        param.data.demands = [...param.data.demands, ...diffDemands];
+      }
+      const userId: string = await this.getUserIdByAuth(param.auth),
+        user = await this.sendToServer('db.user.read', new FindObject({
+          query: userId,
+          select: 'id userSettings',
+        }));
+      if (!user.data.success || user.data.error) return await this.returnHandler({
+        model,
+        data: {error: "invalidUser"}
+      });
+      let ret = null;
+      if (!user.data.success.userSettings) {
+        const userSettings = await this.sendToServer('db.setting.create', {
+            async: param.data.async,
+            timer: param.data.hasTimer,
+            time: param.data.time,
+            demands: param.data.demands,
+            weekAmount: param.data.weekAmount,
+          });
+        if (!userSettings.data.success || userSettings.data.error) return await this.returnHandler({
+          model,
+          data: {error: "createError"}
+        });
+        const updatedUser = await this.sendToServer('db.user.update', new UpdateObject({
+            query: userId,
+            update: {
+              userSettings: userSettings.data.success[0].id,
+            }
+          }));
+        if (!updatedUser.data.success || updatedUser.data.error) {
+          await this.sendToServer('db.setting.delete', new FindObject({
+            query: userSettings.data.success.id,
+          }));
+          return await this.returnHandler({
+            model,
+            data: {error: 'cantUpdateUser'}
+          });
+        }
+        ret = userSettings.data.success[0];
+      } else {
+        const updatedSetting = await this.sendToServer('db.setting.update', new UpdateObject({
+            query: user.data.success.userSettings.toString(),
+            update: {
+              async: param.data.async,
+              timer: param.data.hasTimer,
+              time: param.data.time,
+              demands: param.data.demands,
+              weekAmount: param.data.weekAmount,
+            }
+          }));
+        if (!updatedSetting.data.success || updatedSetting.data.error) return await this.returnHandler({
+          model,
+          data: {error: 'cantUpdateSetting'}
+        });
+        ret = updatedSetting.data.success;
+      }
+      return await this.returnHandler({
+        model,
+        data: {success: ret},
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
+  public async deleteSetting(param: defaultParam) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth',
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const userId: string = await this.getUserIdByAuth(param.auth),
+        user = await this.sendToServer('db.user.read', new FindObject({
+          query: userId,
+          select: 'id userSettings',
+        }));
+      if (!user.data.success || user.data.error) return await this.returnHandler({
+        model,
+        data: {error: 'cantReadUser'}
+      });
+      const updatedUser = await this.sendToServer('db.user.update', new UpdateObject({
+          query: userId,
+          update: {
+            userSettings: null,
+          }
+        }));
+      if (!updatedUser.data.success || updatedUser.data.error) return await this.returnHandler({
+        model,
+        data: {error: 'cantUpdateUser'}
+      });
+      const ret = await this.sendToServer('db.setting.delete', new FindObject({query: user.data.success.userSettings.toString()}));
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
 }
 
 export default new User();
@@ -239,4 +411,15 @@ interface changePassword extends defaultParam {
 
 interface entityChildren extends defaultParam {
   entityId: string,
+}
+interface createUpdateUserSettings {
+  auth: string,
+  data: {
+    async: boolean,
+    hasTimer: boolean,
+    time: number,
+    playersPerTeam: number,
+    weekAmount: number,
+    demands: number[],
+  }
 }
