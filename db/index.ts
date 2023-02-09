@@ -31,7 +31,7 @@ import {
 import {
   APISetting,
   Setting
-} from './ESAGames'
+} from './BeerGame'
 /**
  * Inicia todos os managers.
  */
