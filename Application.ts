@@ -17,6 +17,7 @@ import {OpenRTC} from "./rtc/OpenRTC";
 import {Greenlock} from "./util/Greenlock";
 import {Router} from "express";
 import {AccessController} from './session/AccessController'
+import {GameController} from './game_beergame/GameController'
 import {TestsSessionController} from './session/TestsSessionController';
 import {MailSender} from './mail/MailSender'
 import * as fs from "fs";
@@ -26,6 +27,7 @@ const peer = require('peer');
 export class Application extends Source {
   private _mailSender: MailSender
   private _accessController: AccessController;
+  private _gameController: GameController;
   private _testsSessionController: TestsSessionController;
   private _mainPort: any;
   private _dataBase: any;
@@ -61,6 +63,10 @@ export class Application extends Source {
 
   private set accessController(accessController) {
     this._accessController = new accessController();
+  }
+
+  private set gameController(gameController) {
+    this._gameController = new gameController();
   }
 
   private set mailSender(mailSender) {
@@ -105,6 +111,10 @@ export class Application extends Source {
 
   private static get config() {
     return Application._config;
+  }
+
+  public static get initialPlayed(){
+    return Application._config.initialPlayed;
   }
 
   private set app(express) {
@@ -158,6 +168,7 @@ export class Application extends Source {
    */
   private dataBaseReady() {
     new InitRestful(this.router);
+    this.gameController = GameController;
   }
 
   /**
@@ -204,7 +215,7 @@ export class Application extends Source {
    * Inicia o websocket.
    */
   private initIO() {
-    SocketIO(this.server).on('connect', this.connection.bind(this));
+    SocketIO(this.server, {pingInterval: 3000,}).on('connect', this.connection.bind(this));
   }
 
   /**

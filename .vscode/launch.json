@@ -224,7 +224,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "9.BeerGame",
+            "name": "9.1.BeerGame_Config",
             "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
             "args": [
                 "--timeout",
@@ -233,7 +233,27 @@
                 "bdd",
                 "--reporter",
                 "dot",
-                "${workspaceFolder}/build/test/restful/9.BeerGame.js",
+                "${workspaceFolder}/build/test/restful/9.1.BeerGame_Config.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "9.2.BeerGame_Game",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/9.2.BeerGame_Game.js",
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "skipFiles": [

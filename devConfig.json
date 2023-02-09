@@ -35,5 +35,43 @@
   },
   "test": {
     "minutesLimit": 10
-  }
+  },
+  "initialPlayed": [
+    {
+      "estoqueInicial": 0,
+      "recebimentoMercadori": 10,
+      "estoqueDisponivel": 10,
+      "recebimentoPedido": 10,
+      "entregaMercadoria": 10,
+      "pendencia": 0,
+      "estoqueFinal": 0,
+      "custo": 0,
+      "custoTotal": 0,
+      "decisao": 10
+    },
+    {
+      "estoqueInicial": 0,
+      "recebimentoMercadori": 10,
+      "estoqueDisponivel": 10,
+      "recebimentoPedido": 10,
+      "entregaMercadoria": 10,
+      "pendencia": 0,
+      "estoqueFinal": 0,
+      "custo": 0,
+      "custoTotal": 0,
+      "decisao": 10
+    },
+    {
+      "estoqueInicial": 0,
+      "recebimentoMercadori": 10,
+      "estoqueDisponivel": 10,
+      "recebimentoPedido": 10,
+      "entregaMercadoria": 10,
+      "pendencia": 0,
+      "estoqueFinal": 0,
+      "custo": 0,
+      "custoTotal": 0,
+      "decisao": null
+    }
+  ]
 }

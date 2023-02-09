@@ -1,4 +1,3 @@
-import * as BBPromise from "bluebird";
 import * as fs from 'fs';
 import * as path from 'path';
 import {Source} from "../events/Source";
@@ -9,10 +8,6 @@ export class BasicHandler extends Source {
 
   constructor () {
     super();
-  }
-
-  protected sendToServer (event, dado): BBPromise<any> {
-    return this.hub.send(this, event, {success: dado, error: null,}).promise;
   }
 
   /**
@@ -200,6 +195,33 @@ export class BasicHandler extends Source {
       ret = new Set([...ret, ...childrenIds]);
     }
     return ret;
+  }
+
+  protected async basicCreateGame(userId, groups, isApi=false) {
+    try {
+      const countPromises = await Promise.all([
+          this.sendToServer('db.game.count', new FindObject({
+            query: {
+              teacher: userId,
+              gameStatus: {
+                $ne: 'finished'  // $ne significa não é igual
+              }
+            },
+          })),
+          this.sendToServer('db.game.count', new FindObject({})),
+        ]);
+      if (countPromises[0].data.error || countPromises[1].data.error) throw 'cannotCreateAnotherGame';
+      if (countPromises[0].data.success > 0) throw 'userAlreadyHaveAGame';
+      const pin = countPromises[1].data.success + 1;
+      return this.sendToServer('game.create', {
+        userId,
+        groups: groups,
+        pin,
+        isApi,
+      });
+    } catch (e) {
+      throw e;
+    }
   }
 
 }

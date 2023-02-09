@@ -1,5 +1,6 @@
 import {Hub} from "./Hub";
 import {v4} from "node-uuid";
+import * as BBPromise from "bluebird";
 
 export class Source {
   _id: string;
@@ -104,5 +105,9 @@ export class Source {
       success: this.id,
     });
     this.id = null;
+  }
+
+  protected sendToServer (event, dado): BBPromise<any> {
+    return this.hub.send(this, event, {success: dado, error: null,}).promise;
   }
 }

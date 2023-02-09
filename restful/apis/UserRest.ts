@@ -15,6 +15,7 @@ export class UserRest extends BasicRest {
         '/user/logout': this.logout.bind(this),
         '/user/password': this.updatePassword.bind(this),
         '/user/setting': this.createUpdateUserSettings.bind(this),
+        '/user/game': this.createGame.bind(this),
       },
       get: {
         '/user/setting': this.getSetting.bind(this),
@@ -120,6 +121,22 @@ export class UserRest extends BasicRest {
     try {
       const ret = await this.handler.deleteSetting({
           auth: request.headers['authentication-key'],
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async createGame(request, response) {
+    try {
+      const ret = await this.handler.createGame({
+          auth: request.headers['authentication-key'],
+          data: request.body,
         });
       response
         .status(HTTPStatus.OK)

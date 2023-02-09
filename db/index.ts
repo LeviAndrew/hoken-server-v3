@@ -30,7 +30,8 @@ import {
 } from './DirectMessage'
 import {
   APISetting,
-  Setting
+  Setting,
+  Game
 } from './BeerGame'
 /**
  * Inicia todos os managers.
@@ -53,6 +54,7 @@ let Managers: ManagerMap = {
   directMessage: new DirectMessage(),
   apiSetting: new APISetting(),
   setting: new Setting(),
+  game: new Game(),
 };
 
 export {Managers};

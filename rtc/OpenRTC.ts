@@ -3,19 +3,13 @@ import {OpenHandler} from '../handlers/model/OpenHandler';
 import Handler from '../handlers/model/OpenHandler';
 
 export class OpenRTC extends BasicRTC {
-  protected _userRTCs: BasicRTC;
-
-  /**
-   * Recebe o socketId passado pelo Client.
-   *
-   * @param conf
-   */
+  
   constructor(conf) {
     super('login', Handler, conf);
-    this.userRTCs = {
-    };
     this.interfaceListeners = {
-      'login': this.login.bind(this),
+      'teacherEnter': this.teacherEnter.bind(this),
+      'playerEnter': this.playerEnter.bind(this),
+      'playerReconnect': this.playerReconnect.bind(this),
     };
     this.wiring();
   }
@@ -36,33 +30,37 @@ export class OpenRTC extends BasicRTC {
     return this._interfaceListeners;
   }
 
-  set userRTCs(userRTCs: any) {
-    this._userRTCs = userRTCs;
-  }
-
-  get userRTCs(): any {
-    return this._userRTCs;
-  }
-
-  /**
-   * Repassa o Order de login do Client.
-   * @param msg
-   * @returns {Promise.<void>}
-   */
-  async login(msg) {
-    msg.response = await this.handler.loginHoken(msg.request);
-    if (msg.response.success) {
-      return this.changeRTC(msg);
-    }
+  async teacherEnter(msg) {
+    msg.response = await this.handler.teacherEnter({
+      auth: msg.request.authenticationKey,
+      data: {
+        socket: this.socket,
+      },
+    });
     this.sendToBrowser(msg);
+    this.destroy();
   }
 
-  /**
-   * Responsavel por criar o rtc para o tipo de Employee.
-   * @param msg
-   */
-  private changeRTC(msg) {
-    let typeRTC = msg.response.data.type;
-    new this.userRTCs[typeRTC](this.config, msg, this);
+  async playerEnter(msg) {
+    msg.response = await this.handler.playerEnter({
+      socket: this.socket,
+      playerId: msg.request.playerId,
+      gameId: msg.request.gameId,
+      teamId: msg.request.teamId,
+      nick: msg.request.nick,
+      teacher: msg.request.teacher,
+    });
+    this.sendToBrowser(msg);
+    if (msg.response && msg.response.success && msg.response.data) this.destroy();
   }
+
+  async playerReconnect(msg) {
+    msg.response = await this.handler.playerReconnect({
+      socket: this.socket,
+      gamePin: msg.request.gamePin,
+      playerPin: msg.request.playerPin,
+    });
+    if (msg.response && msg.response.success && msg.response.data) this.destroy();
+  }
+
 }

@@ -10,7 +10,7 @@ let expect = chai.expect;
 let testManager = null;
 const baseURL = `http://localhost:${config.server.port}`;
 
-describe('2.Register', () => {
+describe('9.ConfigBeerGame', () => {
 
     let loggedUser;
   

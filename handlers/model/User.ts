@@ -392,6 +392,27 @@ export class User extends BasicHandler {
     }
   }
 
+  public async createGame(param: {auth: string, data: any}) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth', 'data',
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const userId: string = await this.getUserIdByAuth(param.auth),
+        ret = await this.basicCreateGame(userId, param.data);
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
 }
 
 export default new User();

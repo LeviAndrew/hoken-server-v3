@@ -4,6 +4,7 @@ import Handler from "../../handlers/model/OpenHandler";
 import * as HTTPStatus from 'http-status-codes';
 
 export class OpenRest extends BasicRest {
+  // @ts-ignore
   protected _handler: OpenHandler;
 
   constructor (router) {
@@ -13,6 +14,14 @@ export class OpenRest extends BasicRest {
       post: {
         '/login/hoken': this.loginHoken.bind(this),
       },
+      get: {
+        '/open/available-game': this.readAvailableGame.bind(this),
+        '/open/available-game/:gameId': this.readAvailableGameTeam.bind(this),
+        '/open/available-game/:gameId/:teamId': this.readAvailableGameTeamPosition.bind(this),
+      },
+      put: {
+        '/open/enter-game': this.enterGame.bind(this),
+      }
     };
 
     this.wiring();
@@ -46,6 +55,62 @@ export class OpenRest extends BasicRest {
     res
       .status(HTTPStatus.OK)
       .send(response);
+  }
+
+  private async readAvailableGame(req, res) {
+    try {
+      const
+        response = await this.handler.readAvailableGame();
+      res
+        .status(HTTPStatus.OK)
+        .send(response);
+    } catch (e) {
+      res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async readAvailableGameTeam(req, res) {
+    try {
+      const
+        response = await this.handler.readAvailableGameTeam(req.params.gameId);
+      res
+        .status(HTTPStatus.OK)
+        .send(response);
+    } catch (e) {
+      res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async readAvailableGameTeamPosition(req, res) {
+    try {
+      const
+        response = await this.handler.readAvailableGameTeamPosition(req.params.gameId, req.params.teamId);
+      res
+        .status(HTTPStatus.OK)
+        .send(response);
+    } catch (e) {
+      res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async enterGame(req, res) {
+    try {
+      const
+        response = await this.handler.enterGame(req.body);
+      res
+        .status(HTTPStatus.OK)
+        .send(response);
+    } catch (e) {
+      res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
   }
 
 }

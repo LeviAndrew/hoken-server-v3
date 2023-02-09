@@ -1,5 +1,6 @@
 import {BasicHandler} from "../BasicHandler";
 import {FindObject} from '../util/FindObject';
+import {UpdateObject} from "../util/UpdateObject";
 import {Application} from '../../Application';
 import { cpf } from 'cpf-cnpj-validator'; 
 import * as ldap from 'ldapjs';
@@ -158,7 +159,262 @@ export class OpenHandler extends BasicHandler {
     });
   }
 
+  public async teacherEnter(param: defaultParam<{ socket: any }>) {
+    const
+      model = 'user',
+      required = this.attributeValidator([
+        'auth', 'data',
+        [
+          'socket',
+        ],
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const userId: string = await this.getUserIdByAuth(param.auth),
+        ret = await this.sendToServer('game.teacherEnter', {
+          userId,
+          socket: param.data.socket,
+        });
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
+  public async playerEnter(param: playerEnter) {
+    const
+      model = 'player',
+      required = this.attributeValidator([
+        'socket',
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const
+        ret = await this.sendToServer('game.playerEnter', param);
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
+  public async playerReconnect(param: playerReconnect) {
+    const
+      required = this.attributeValidator([
+        'socket', 'playerPin', 'gamePin',
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    await this.sendToServer('game.player.reconnect', param);
+  }
+
+  public async readAvailableGame(): Promise<returnData> {
+    const model = 'user';
+    try {
+      const ret = await this.sendToServer('db.game.read', new FindObject({
+          query: {
+            $or: [
+              {gameStatus: 'created'},
+              {gameStatus: 'paused'},
+            ]
+          },
+          select: 'gameSetting teams id teacher createdAt',
+          populate: [
+            {
+              path: 'teacher',
+              select: 'name surname email educationalInstitution id',
+            }
+          ]
+        }));
+      this.checkHubReturn(ret.data);
+      if (ret.data.success.length) {
+        const teams = [];
+        ret.data.success[0].teams.forEach(team => {
+          team.players = team.players.filter(player => !player.nick);
+          if (team.players.length) teams.push(team);
+        });
+        ret.data.success[0].teams = teams;
+      }
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      })
+    }
+  }
+
+  public async readAvailableGameTeam(gameId: string): Promise<returnData> {
+    const model = 'user';
+    try {
+      const game = await this.sendToServer('db.game.read', new FindObject({
+          query: gameId,
+          select: 'gameSetting teams id teacher createdAt',
+          populate: [
+            {
+              path: 'teacher',
+              select: 'name surname email educationalInstitution id',
+            }
+          ]
+        }));
+      if (!game.data.success || game.data.error) return await this.returnHandler({
+        model,
+        data: {error: 'invalidGame'},
+      });
+      const teams = game.data.success.teams.filter(team => {
+          let isAvailable = false;
+          for (let i = 0; i < team.players.length; i++) {
+            if (!team.players[i].nick) {
+              isAvailable = true;
+              break;
+            }
+          }
+          return isAvailable;
+        });
+      return await this.returnHandler({
+        model,
+        data: {success: teams},
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      })
+    }
+  }
+
+  public async readAvailableGameTeamPosition(gameId: string, teamId: string): Promise<returnData> {
+    const model = 'user';
+    try {
+      const game = await this.sendToServer('db.game.read', new FindObject({
+          query: gameId,
+          select: 'gameSetting teams id teacher createdAt',
+          populate: [
+            {
+              path: 'teacher',
+              select: 'name surname email educationalInstitution id',
+            }
+          ]
+        }));
+      if (!game.data.success || game.data.error) return await this.returnHandler({
+        model,
+        data: {error: 'invalidGame'},
+      });
+      const teams = game.data.success.teams.filter(team => team._id.toString() === teamId);
+      if (!teams.length) return await this.returnHandler({
+        model,
+        data: {error: 'invalidTeam'}
+      });
+      const position = teams[0].players.filter(player => !player.nick);
+      return await this.returnHandler({
+        model,
+        data: {success: position},
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      })
+    }
+  }
+
+  public async enterGame(param: enterGame): Promise<returnData> {
+    const model = 'user',
+      required = this.attributeValidator([
+        "gameId", "teamId", "nick", "positionId"
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const game = await this.sendToServer('db.game.read', new FindObject({
+          findOne: true,
+          query: {
+            _id: param.gameId,
+            $or: [
+              {gameStatus: 'created'},
+              {gameStatus: 'paused'},
+            ]
+          },
+          select: 'gameSetting teams id teacher gameStatus',
+        }));
+      this.checkHubReturn(game.data);
+      const teams = game.data.success.teams,
+        playedStart = Application.initialPlayed;
+      let isValidPosition = false,
+        teamData = {
+          teamNick: '',
+          positionType: '',
+        };
+      for (let i = 0; i < teams.length; i++) {
+        if (teams[i]._id.toString() === param.teamId) {
+          for (let p = 0; p < teams[i].players.length; p++) {
+            if (teams[i].players[p]._id.toString() === param.positionId) {
+              const position = teams[i].players[p];
+              if (position.nick) return await this.returnHandler({
+                model,
+                data: {error: 'positionAlreadyOccupied'}
+              });
+              position.nick = param.nick;
+              position.playedArray = playedStart;
+              teamData.positionType = position.playerType;
+              teamData.teamNick = teams[i].nick;
+              isValidPosition = true;
+            }
+          }
+        }
+      }
+      if (!isValidPosition) return await this.returnHandler({
+        model,
+        data: {error: 'invalidPosition'}
+      });
+      const
+        updatedGame = await this.sendToServer('db.game.update', new UpdateObject({
+          query: param.gameId,
+          update: {
+            teams,
+          }
+        }));
+      this.checkHubReturn(updatedGame.data);
+      return await this.returnHandler({
+        model,
+        data: {
+          success: {
+            playerId: param.positionId,
+            ...param,
+            teacher: game.data.success.teacher,
+            playedArray: playedStart,
+            gameStatus: game.data.success.gameStatus,
+            gameSetting: {
+              timer: game.data.success.gameSetting.timer,
+              time: game.data.success.gameSetting.time,
+              ...teamData,
+            },
+          },
+        },
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      })
+    }
+  }
+
 }
+
+export default new OpenHandler();
 
 interface returnData {
   success: boolean,
@@ -170,4 +426,29 @@ interface loginData {
   password: string
 }
 
-export default new OpenHandler();
+interface defaultParam<T> {
+  auth: string,
+  data: T
+}
+
+interface playerEnter {
+  playerId: string,
+  gameId: string,
+  teamId: string,
+  nick: string,
+  teacher: string,
+  socket: any,
+}
+
+interface playerReconnect {
+  playerPin: string,
+  gamePin: string,
+  socket: any,
+}
+
+interface enterGame {
+  gameId: string,
+  teamId: string,
+  nick: string,
+  positionId: string,
+}
