@@ -1,0 +1,125 @@
+{
+    "model": "game",
+    "data": [
+      {
+        "_id": "63e8f8c10f4fd56f653a9242",
+        "gameStatus": "finished",
+        "teacher": "59d418c0659c0ab8386f19e3",
+        "pin": 1,
+        "team": [
+            {
+                "_id": "63e8f7c3e4ed305174985bef",
+                "nick": "group 1",
+                "players": [
+                    {
+                        "_id": "63e8f7c3e4ed305174985bf0",
+                        "playerType": "industria",
+                        "playedArray": []
+                    },
+                    {
+                        "_id": "63e8f7c3e4ed305174985bf1",
+                        "playerType": "distribuidor",
+                        "playedArray": []
+                    },
+                    {
+                        "_id": "63e8f7c3e4ed305174985bf2",
+                        "playerType": "atacadista",
+                        "playedArray": []
+                    },
+                    {
+                        "_id": "63e8f7c3e4ed305174985bf3",
+                        "playerType": "varegista",
+                        "playedArray": []
+                    }
+                ]
+            },
+            {
+                "_id": "64e8f7c3e4ed305174985beg",
+                "nick": "group 2",
+                "players": [
+                    {
+                        "_id": "63e8f7c3e4ed305174985bf4",
+                        "playerType": "industria",
+                        "playedArray": []
+                    },
+                    {
+                        "_id": "63e8f7c3e4ed305174985bf5",
+                        "playerType": "distribuidor",
+                        "playedArray": []
+                    },
+                    {
+                        "_id": "63e8f7c3e4ed305174985bf6",
+                        "playerType": "atacadista",
+                        "playedArray": []
+                    },
+                    {
+                        "_id": "63e8f7c3e4ed305174985bf7",
+                        "playerType": "varegista",
+                        "playedArray": []
+                    }
+                ]
+            }
+        ],
+        "gameSetting": {
+            "_id": "63e8f7c3e4ed305174985bee",
+            "weekAmount": 5,
+            "async": true,
+            "timer": false,
+            "time": 45,
+            "playersPerTeam": 4,
+            "demands": [
+                10,
+                12,
+                14,
+                15,
+                20,
+                50,
+                35,
+                40,
+                50,
+                10,
+                10,
+                12,
+                14,
+                15,
+                20,
+                50,
+                35,
+                40,
+                50,
+                10,
+                10,
+                12,
+                14,
+                15,
+                20,
+                50,
+                35,
+                40,
+                50,
+                10,
+                10,
+                12,
+                14,
+                15,
+                20,
+                50,
+                35,
+                40,
+                50,
+                10,
+                10,
+                12,
+                14,
+                15,
+                20,
+                50,
+                35,
+                40,
+                50,
+                10
+            ]
+        }
+      }      
+    ]
+  }
