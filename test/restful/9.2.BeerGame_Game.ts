@@ -24,7 +24,7 @@ describe('9.2.BeerGame_Game', () => {
 
   describe('BEFORE', () => {
     require('./9.1.BeerGame_Config');
-  })
+  });
   
   describe('LOGIN', () => {
 

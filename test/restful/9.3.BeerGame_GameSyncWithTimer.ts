@@ -20,7 +20,7 @@ describe('9.3.BeerGame_GameSyncWithTimer', () => {
 
   describe('BEFORE', () => {
     require('./9.1.BeerGame_Config');
-  })
+  });
   
   describe('LOGIN', () => {
 
