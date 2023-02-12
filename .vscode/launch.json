@@ -281,5 +281,65 @@
             ],
             "preLaunchTask": "tsc: build - tsconfig.json",
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "9.4.BeerGame_GameSyncNoTimer",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/9.4.BeerGame_GameSyncNoTimer.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "9.5.BeerGame_GameAsyncNoTimer",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/9.5.BeerGame_GameAsyncNoTimer.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "9.6.BeerGame_GameAsyncWithTimer",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/9.6.BeerGame_GameAsyncWithTimer.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
     ]
 }
