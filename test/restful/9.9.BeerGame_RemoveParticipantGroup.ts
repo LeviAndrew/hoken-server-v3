@@ -1,7 +1,6 @@
 import * as path from 'path';
 
-const chai: any = require('chai'),
-  chaiHTTP = require('chai-http'),
+const chai: any = require('chai'), chaiHTTP = require('chai-http'),
   config = require(path.resolve('devConfig.json'));
 
 chai.use(chaiHTTP);
