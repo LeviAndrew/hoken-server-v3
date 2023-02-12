@@ -13,6 +13,7 @@ export class OpenRest extends BasicRest {
     this.routes = {
       post: {
         '/login/hoken': this.loginHoken.bind(this),
+        // '/open/register': this.register.bind(this), // no beergame cria user (já tem no hoken em management)
       },
       get: {
         '/open/available-game': this.readAvailableGame.bind(this),

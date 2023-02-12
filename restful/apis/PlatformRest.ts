@@ -15,12 +15,12 @@ export class PlatformRest extends BasicRest {
     this.routes = {
       post: {
         '/platform/register': this.register.bind(this),
-        // '/platform/game': this.createGame.bind(this),
+        '/platform/game': this.createGame.bind(this),
       },
       get: {
-        // '/platform/reports-available': this.getAvailableReports.bind(this),
-        // '/platform/report/:id': this.readGameDetail.bind(this),
-        // '/platform/report/xlsx/:id': this.downloadReportXLSX.bind(this),
+        '/platform/reports-available': this.getAvailableReports.bind(this),
+        '/platform/report/:id': this.readGameDetail.bind(this),
+        '/platform/report/xlsx/:id': this.downloadReportXLSX.bind(this),
       },
     };
 
@@ -59,83 +59,79 @@ export class PlatformRest extends BasicRest {
     }
   }
 
-//   private async createGame(request, response) {
-//     try {
-//       const
-//         ret = await this.handler.createGame({
-//           pKey: request.headers['platform-key'],
-//           userId: request.headers['user-id'],
-//           data: request.body,
-//         });
-//       response
-//         .status(HTTPStatus.OK)
-//         .send(ret);
-//     } catch (e) {
-//       response
-//         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-//         .send(e);
-//     }
-//   }
+  private async createGame(request, response) {
+    try {
+      const ret = await this.handler.createGame({
+          pKey: request.headers['platform-key'],
+          userId: request.headers['user-id'],
+          data: request.body,
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
 
-//   private async getAvailableReports(request, response) {
-//     try {
-//       const
-//         ret = await this.handler.getAvailableReports({
-//           pKey: request.headers['platform-key'],
-//           userId: request.headers['user-id'],
-//           data: null,
-//         });
-//       response
-//         .status(HTTPStatus.OK)
-//         .send(ret);
-//     } catch (e) {
-//       response
-//         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-//         .send(e);
-//     }
-//   }
+  private async getAvailableReports(request, response) {
+    try {
+      const ret = await this.handler.getAvailableReports({
+          pKey: request.headers['platform-key'],
+          userId: request.headers['user-id'],
+          data: null,
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
 
-//   private async readGameDetail(request, response) {
-//     try {
-//       const
-//         ret = await this.handler.readGameDetail({
-//           pKey: request.headers['platform-key'],
-//           userId: request.headers['user-id'],
-//           data: {
-//             id: request.params.id,
-//           },
-//         });
-//       response
-//         .status(HTTPStatus.OK)
-//         .send(ret);
-//     } catch (e) {
-//       response
-//         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-//         .send(e);
-//     }
-//   }
+  private async readGameDetail(request, response) {
+    try {
+      const ret = await this.handler.readGameDetail({
+          pKey: request.headers['platform-key'],
+          userId: request.headers['user-id'],
+          data: {
+            id: request.params.id,
+          },
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
 
-//   private async downloadReportXLSX(request, response) {
-//     try {
-//       const
-//         ret = await this.handler.jsonToXLSX({
-//           pKey: request.headers['platform-key'],
-//           userId: request.headers['user-id'],
-//           data: {
-//             id: request.params.id,
-//           },
-//         });
-//       if (!ret.success) response
-//         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-//         .send("cannotDownloadXLSX");
-//       response
-//         .status(HTTPStatus.OK)
-//         .xls(`repost.xlsx`, ret.data);
-//     } catch (e) {
-//       response
-//         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
-//         .send(e);
-//     }
-//   }
+  private async downloadReportXLSX(request, response) {
+    try {
+      const ret = await this.handler.jsonToXLSX({
+          pKey: request.headers['platform-key'],
+          userId: request.headers['user-id'],
+          data: {
+            id: request.params.id,
+          },
+        });
+      if (!ret.success) response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send("cannotDownloadXLSX");
+      response
+        .status(HTTPStatus.OK)
+        .xls(`repost.xlsx`, ret.data);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
 
 }

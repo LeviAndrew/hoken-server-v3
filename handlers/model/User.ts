@@ -413,6 +413,271 @@ export class User extends BasicHandler {
     }
   }
 
+  public async getGame(param: {auth: string, data: any}) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth',
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const userId: string = await this.getUserIdByAuth(param.auth),
+        ret = await this.sendToServer('db.game.read', new FindObject({
+          findOne: true,
+          query: {
+            teacher: userId,
+            gameStatus: {
+              $ne: 'finished',
+            },
+          },
+          select: 'pin gameStatus gameSetting._id gameSetting.async' +
+            ' gameSetting.timer gameSetting.time teams id',
+        }));
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
+  public async updateInfo(param: updateInfo) {
+    const model = 'user',
+      canUpdate = [
+        "name", "surname", "email", "educationalInstitution"
+      ],
+      required = this.attributeValidator([
+        'auth', 'data', '$or', canUpdate,
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const userId: string = await this.getUserIdByAuth(param.auth),
+        ret = await this.sendToServer('db.user.update', new UpdateObject({
+          query: userId,
+          update: this.getUpdateObject(canUpdate, param.data),
+          select: [...canUpdate, 'id']
+        }));
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
+  public async getAvailableReports(param: {auth: string, data: any}) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth',
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const userId: string = await this.getUserIdByAuth(param.auth),
+        ret = await this.sendToServer('db.game.read', new FindObject({
+          query: {
+            teacher: userId,
+            gameStatus: 'finished',
+          },
+          select: 'id createdAt',
+          orderBy: {
+            asc: [],
+            desc: ['createdAt'],
+          }
+        }));
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
+  public async readGameDetail(param: {auth: string, data: {id: string}}) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth', 'data',
+        [
+          'id',
+        ],
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const ret = await this.sendToServer('db.game.read', new FindObject({
+          query: param.data.id,
+          select: 'gameSetting teacher teams id',
+          populate: [
+            {
+              path: 'teacher',
+              select: 'name surname id',
+            },
+          ],
+        }));
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
+  public async readCurrentGame(param: {auth: string, data: {id: string}}) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth', 'data',
+        [
+          'id',
+        ],
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const ret = await this.sendToServer('db.game.read', new FindObject({
+          query: param.data.id,
+          select: 'teams',
+        }));
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
+  public async jsonToXLSX(param: {auth: string, data: {id: string}}) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth', 'data',
+        [
+          'id',
+        ],
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const ret = await this.sendToServer('db.game.read', new FindObject({
+          query: param.data.id,
+          select: 'gameSetting teams id',
+        }));
+      const objectBase = function ({
+                                 teamNick,
+                                 position,
+                                 participantName,
+                                 week,
+                                 estoqueInicial,
+                                 recebimentoMercadori,
+                                 estoqueDisponivel,
+                                 recebimentoPedido,
+                                 entregaMercadoria,
+                                 pendencia,
+                                 estoqueFinal,
+                                 custo,
+                                 custoTotal,
+                                 decisao,
+                               }: {
+          teamNick?,
+          position?,
+          participantName?,
+          week?,
+          estoqueInicial?,
+          recebimentoMercadori?,
+          estoqueDisponivel?,
+          recebimentoPedido?,
+          entregaMercadoria?,
+          pendencia?,
+          estoqueFinal?,
+          custo?,
+          custoTotal?,
+          decisao?,
+        }) {
+          return {
+            "Grupo": teamNick || "",
+            "Posição": position || "",
+            "Participante": participantName || "",
+            "Semana": week || "",
+            "Estoque inicial": estoqueInicial || "",
+            "Recebimento de mercadoria": recebimentoMercadori || "",
+            "Estoque disponivel": estoqueDisponivel || "",
+            "Recebimento de pedido": recebimentoPedido || "",
+            "Entrega de mercadoria": entregaMercadoria || "",
+            "Pendencia": pendencia || "",
+            "Estoque final": estoqueFinal || "",
+            "Custo": custo || "",
+            "Custo total": custoTotal || "",
+            "Decisão": decisao || "",
+          }
+        },
+        gameTypeTranslate = {
+          industria: "Industria",
+          distribuidor: "Distribuidor",
+          atacadista: "Atacadista",
+          varegista: "Varejista",
+        },
+        xlsxArray = [objectBase({})];
+      ret.data.success.teams.forEach(team => {
+        team.players.forEach(player => {
+          player.playedArray.forEach((played, index) => {
+            xlsxArray.push(objectBase({
+              teamNick: team.nick,
+              position: gameTypeTranslate[player.playerType],
+              participantName: player.nick,
+              week: index + 1,
+              estoqueInicial: played.estoqueInicial || "0",
+              recebimentoMercadori: played.recebimentoMercadori || "0",
+              estoqueDisponivel: played.estoqueDisponivel || "0",
+              recebimentoPedido: played.recebimentoPedido || "0",
+              entregaMercadoria: played.entregaMercadoria || "0",
+              pendencia: played.pendencia || "0",
+              estoqueFinal: played.estoqueFinal || "0",
+              custo: played.custo || "0",
+              custoTotal: played.custoTotal || "0",
+              decisao: played.decisao || "0",
+            }));
+          });
+        });
+        xlsxArray.push(objectBase({}));
+      });
+      xlsxArray.push(objectBase({teamNick: "Configurações do jogo"}));
+      xlsxArray.push(objectBase({
+        teamNick: "Total de semanas",
+        position: ret.data.success.gameSetting.weekAmount,
+      }));
+      xlsxArray.push(objectBase({
+        teamNick: "Jogo assincrono?",
+        position: ret.data.success.gameSetting.async ? "SIM" : "NÃo",
+      }));
+      xlsxArray.push(objectBase({
+        teamNick: "Jogo com tempo?",
+        position: ret.data.success.gameSetting.timer ? `SIM ${ret.data.success.gameSetting.time} segundos` : "NÃo",
+      }));
+      return await this.returnHandler({
+        model,
+        data: {success: xlsxArray},
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
 }
 
 export default new User();
@@ -442,5 +707,14 @@ interface createUpdateUserSettings {
     playersPerTeam: number,
     weekAmount: number,
     demands: number[],
+  }
+}
+interface updateInfo {
+  auth: string,
+  data: {
+    name: string,
+    surname: string,
+    email: string,
+    educationalInstitution: string,
   }
 }

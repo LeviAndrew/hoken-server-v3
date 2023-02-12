@@ -5,17 +5,13 @@ const chaiHTTP = require('chai-http');
 const config = require(path.resolve('devConfig.json'));
 
 chai.use(chaiHTTP);
-const
-  expect = chai.expect,
+const expect = chai.expect,
   io = require('socket.io-client');
 const baseURL = `http://localhost:${config.server.port}`;
 
 describe('9.2.BeerGame_Game', () => {
 
-  let loggedUser,
-    clientIO,
-    gamePin,
-    playerPin;
+  let loggedUser, clientIO, gamePin, playerPin;
 
   function studentEnter(msg) {
     if (msg.success.nick === "player 1") playerPin = msg.success.pin;
@@ -188,8 +184,7 @@ describe('9.2.BeerGame_Game', () => {
 
     describe('TEST', () => {
 
-      let game,
-        team;
+      let game, team;
 
       it('read game', (done) => {
         chai.request(baseURL)
@@ -245,10 +240,7 @@ describe('9.2.BeerGame_Game', () => {
 
   });
 
-  let
-    player,
-    playerIO,
-    playersMap = new Map();
+  let player, playerIO, playersMap = new Map();
 
   describe('STUDENT ENTER', () => {
 
