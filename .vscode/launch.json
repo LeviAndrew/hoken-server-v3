@@ -261,5 +261,25 @@
             ],
             "preLaunchTask": "tsc: build - tsconfig.json",
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "9.3.BeerGame_GameSyncWithTimer",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
+            "args": [
+                "--timeout",
+                "0",
+                "--ui",
+                "bdd",
+                "--reporter",
+                "dot",
+                "${workspaceFolder}/build/test/restful/9.3.BeerGame_GameSyncWithTimer.js",
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "preLaunchTask": "tsc: build - tsconfig.json",
+        },
     ]
 }
