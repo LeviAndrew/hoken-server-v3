@@ -267,6 +267,51 @@ export class User extends BasicHandler {
     }
   }
 
+  public async getSettingBase(param: defaultParam) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth',
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const userId: string = await this.getUserIdByAuth(param.auth),
+        promises = await Promise.all([
+          this.sendToServer('db.user.read', new FindObject({
+            query: userId,
+            select: 'id userSettings',
+            populate: [
+              {
+                path: 'userSettings',
+              }
+            ]
+          })),
+          this.sendToServer('db.settingBase.read', new FindObject({
+            findOne: true,
+            query: {
+              isDefault: true,
+            },
+          })),
+        ]);
+      for (let i = 0; i < promises.length; i++) {
+        if (!promises[i].data.success || promises[i].data.error) return await this.returnHandler({
+          model,
+          data: {error: 'readError'}
+        });
+      }
+      let ret = promises[0].data.success;
+      if (!ret.userSettings) ret['userSettings'] = promises[1].data.success;
+      return await this.returnHandler({
+        model,
+        data: {success: ret},
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
   public async createUpdateUserSettings(param: createUpdateUserSettings) {
     const model = 'user',
       required = this.attributeValidator([
@@ -353,6 +398,79 @@ export class User extends BasicHandler {
     }
   }
 
+  public async createUpdateUserSettingsBase(param: createUpdateUserSettings) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth', 'data',
+        [
+          "async", "hasTimer", "time", 'playersPerTeam',
+        ]
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const
+        userId: string = await this.getUserIdByAuth(param.auth),
+        user = await this.sendToServer('db.user.read', new FindObject({
+          query: userId,
+          select: 'id userSettings',
+        }));
+      if (!user.data.success || user.data.error) return await this.returnHandler({
+        model,
+        data: {error: "invalidUser"}
+      });
+      let
+        ret = null;
+      if (!user.data.success.userSettings) {
+        const userSettings = await this.sendToServer('db.settingBase.create', param.data);
+        if (!userSettings.data.success || userSettings.data.error) return await this.returnHandler({
+          model,
+          data: {error: "createError"}
+        });
+        const updatedUser = await this.sendToServer('db.user.update', new UpdateObject({
+            query: userId,
+            update: {
+              userSettings: userSettings.data.success[0].id,
+            }
+          }));
+        if (!updatedUser.data.success || updatedUser.data.error) {
+          await this.sendToServer('db.settingBase.delete', new FindObject({
+            query: userSettings.data.success.id,
+          }));
+          return await this.returnHandler({
+            model,
+            data: {error: 'cantUpdateUser'}
+          });
+        }
+        ret = userSettings.data.success[0];
+      } else {
+        const
+          updatedSetting = await this.sendToServer('db.settingBase.update', new UpdateObject({
+            query: user.data.success.userSettings.toString(),
+            update: {
+              async: param.data.async,
+              hasTimer: param.data.hasTimer,
+              time: param.data.time,
+              playersPerTeam: param.data.playersPerTeam,
+            }
+          }));
+        if (!updatedSetting.data.success || updatedSetting.data.error) return await this.returnHandler({
+          model,
+          data: {error: 'cantUpdateSetting'}
+        });
+        ret = updatedSetting.data.success;
+      }
+      return await this.returnHandler({
+        model,
+        data: {success: ret},
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
   public async deleteSetting(param: defaultParam) {
     const model = 'user',
       required = this.attributeValidator([
@@ -392,6 +510,45 @@ export class User extends BasicHandler {
     }
   }
 
+  public async deleteSettingBase(param: defaultParam) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth',
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const userId: string = await this.getUserIdByAuth(param.auth),
+        user = await this.sendToServer('db.user.read', new FindObject({
+          query: userId,
+          select: 'id userSettings',
+        }));
+      if (!user.data.success || user.data.error) return await this.returnHandler({
+        model,
+        data: {error: 'cantReadUser'}
+      });
+      const updatedUser = await this.sendToServer('db.user.update', new UpdateObject({
+          query: userId,
+          update: {
+            userSettings: null,
+          }
+        }));
+      if (!updatedUser.data.success || updatedUser.data.error) return await this.returnHandler({
+        model,
+        data: {error: 'cantUpdateUser'}
+      });
+      const ret = await this.sendToServer('db.settingBase.delete', new FindObject({query: user.data.success.userSettings.toString()}));
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
   public async createGame(param: {auth: string, data: any}) {
     const model = 'user',
       required = this.attributeValidator([
@@ -401,6 +558,52 @@ export class User extends BasicHandler {
     try {
       const userId: string = await this.getUserIdByAuth(param.auth),
         ret = await this.basicCreateGame(userId, param.data);
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      });
+    }
+  }
+
+  public async createGameBase(param: {auth: string, data: any}) {
+    const model = 'user',
+      required = this.attributeValidator([
+        'auth', 'data',
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const userId: string = await this.getUserIdByAuth(param.auth),
+        countPromises = await Promise.all([
+          this.sendToServer('db.gameBase.count', new FindObject({
+            query: {
+              teacher: userId,
+              gameStatus: {
+                $ne: 'finished'
+              }
+            },
+          })),
+          this.sendToServer('db.gameBase.count', new FindObject({})),
+        ]);
+      if (countPromises[0].data.error || countPromises[1].data.error) return await this.returnHandler({
+        model,
+        data: {error: 'cannotCreateAnotherGame'}
+      });
+      if (countPromises[0].data.success > 0) return await this.returnHandler({
+        model,
+        data: {error: 'userAlreadyHaveAGame'}
+      });
+      const
+        pin = countPromises[1].data.success + 1,
+        ret = await this.sendToServer('gameBase.create', {
+          userId,
+          groups: param.data,
+          pin,
+        });
       return await this.returnHandler({
         model,
         data: ret.data,
@@ -705,8 +908,8 @@ interface createUpdateUserSettings {
     hasTimer: boolean,
     time: number,
     playersPerTeam: number,
-    weekAmount: number,
-    demands: number[],
+    weekAmount?: number,
+    demands?: number[],
   }
 }
 interface updateInfo {

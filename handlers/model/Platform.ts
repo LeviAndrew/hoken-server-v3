@@ -7,8 +7,7 @@ import {UpdateObject} from "../util/UpdateObject";
 export class Platform extends BasicHandler {
 
     public async register(param: defaultParam<register>) {
-      const
-        model = 'user',
+      const model = 'user',
         required = this.attributeValidator([
           "pKey", "data", [
             "id", "educationalInstitution",

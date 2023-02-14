@@ -1,3 +1,5 @@
 export {APISetting} from './managers/APISetting'
 export {Setting} from './managers/Setting'
 export {Game} from './managers/Game'
+export {GameBase} from './managers/GameBase'
+export {SettingBase} from './managers/SettingBase'

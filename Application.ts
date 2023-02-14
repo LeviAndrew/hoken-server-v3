@@ -18,6 +18,7 @@ import {Greenlock} from "./util/Greenlock";
 import {Router} from "express";
 import {AccessController} from './session/AccessController'
 import {GameController} from './game_beergame/GameController'
+import {GameBaseController} from './game_base/GameController'
 import {TestsSessionController} from './session/TestsSessionController';
 import {MailSender} from './mail/MailSender'
 import * as fs from "fs";
@@ -28,6 +29,7 @@ export class Application extends Source {
   private _mailSender: MailSender
   private _accessController: AccessController;
   private _gameController: GameController;
+  private _gameBaseController: GameBaseController;
   private _testsSessionController: TestsSessionController;
   private _mainPort: any;
   private _dataBase: any;
@@ -47,7 +49,7 @@ export class Application extends Source {
     this.serverConfiguration();
     this.initIO();
     this.router = Router;
-    this.accessController = AccessController;
+    // this.accessController = AccessController;
     this.testsSessionController = TestsSessionController;
     this.server.listen(this.mainPort, this.initDataBase.bind(this));
     this.createPaths();
@@ -67,6 +69,10 @@ export class Application extends Source {
 
   private set gameController(gameController) {
     this._gameController = new gameController();
+  }
+
+  private set gameBaseController(gameBaseController) {
+    this._gameBaseController = new gameBaseController();
   }
 
   private set mailSender(mailSender) {
@@ -168,7 +174,9 @@ export class Application extends Source {
    */
   private dataBaseReady() {
     new InitRestful(this.router);
+    this.accessController = AccessController;
     this.gameController = GameController;
+    this.gameBaseController = GameBaseController;
   }
 
   /**

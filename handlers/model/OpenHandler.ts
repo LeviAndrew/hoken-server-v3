@@ -3,6 +3,7 @@ import {FindObject} from '../util/FindObject';
 import {UpdateObject} from "../util/UpdateObject";
 import {Application} from '../../Application';
 import { cpf } from 'cpf-cnpj-validator'; 
+import {Types} from "mongoose";
 import * as ldap from 'ldapjs';
 import * as path from 'path';
 
@@ -257,6 +258,44 @@ export class OpenHandler extends BasicHandler {
     }
   }
 
+  public async readAvailableGameBase(): Promise<returnData> {
+    const model = 'user';
+    try {
+      const ret = await this.sendToServer('db.gameBase.read', new FindObject({
+          query: {
+            $or: [
+              {gameStatus: 'created'},
+              {gameStatus: 'paused'},
+            ]
+          },
+          select: 'gameSetting teams id teacher createdAt',
+          populate: [
+            {
+              path: 'teacher',
+              select: 'name surname email educationalInstitution id',
+            }
+          ]
+        }));
+      this.checkHubReturn(ret.data);
+      const teams = [];
+      if (ret.data.success.length) {
+        ret.data.success[0].teams.forEach(team => {
+          if (team.players.length < ret.data.success[0].gameSetting.playersPerTeam) teams.push(team);
+        });
+        ret.data.success[0].teams = teams;
+      }
+      return await this.returnHandler({
+        model,
+        data: ret.data,
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      })
+    }
+  }
+
   public async readAvailableGameTeam(gameId: string): Promise<returnData> {
     const model = 'user';
     try {
@@ -401,6 +440,58 @@ export class OpenHandler extends BasicHandler {
               time: game.data.success.gameSetting.time,
               ...teamData,
             },
+          },
+        },
+      });
+    } catch (e) {
+      return await this.returnHandler({
+        model,
+        data: {error: e.message || e},
+      })
+    }
+  }
+
+  public async enterGameBase(param: enterGame): Promise<returnData> {
+    const model = 'user',
+      required = this.attributeValidator([
+        "gameId", "teamId", "nick",
+      ], param);
+    if (!required.success) return await this.getErrorAttributeRequired(required.error);
+    try {
+      const game = await this.sendToServer('db.game.read', new FindObject({
+          findOne: true,
+          query: {
+            _id: param.gameId,
+            $or: [
+              {gameStatus: 'created'},
+              {gameStatus: 'paused'},
+            ]
+          },
+          select: 'gameSetting teams id teacher',
+        }));
+      this.checkHubReturn(game.data);
+      const teams = game.data.success.teams,
+        team = teams.find(team => team._id.toString() === param.teamId),
+        _id = new Types.ObjectId();
+      if (team.players.length >= game.data.success.gameSetting.playersPerTeam) return await this.returnHandler({
+        model,
+        data: {error: "teamFull"}
+      });
+      team.players.push({_id, nick: param.nick});
+      const updatedGame = await this.sendToServer('db.game.update', new UpdateObject({
+          query: param.gameId,
+          update: {
+            teams,
+          }
+        }));
+      this.checkHubReturn(updatedGame.data);
+      return await this.returnHandler({
+        model,
+        data: {
+          success: {
+            playerId: _id,
+            ...param,
+            teacher: game.data.success.teacher,
           },
         },
       });

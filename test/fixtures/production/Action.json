@@ -437,7 +437,8 @@
       "name": "userRegisterSetting",
       "methods": [
         "register",
-        "setting"
+        "setting",
+        "settingBase"
       ]
     }
   ]

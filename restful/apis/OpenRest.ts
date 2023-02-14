@@ -19,9 +19,11 @@ export class OpenRest extends BasicRest {
         '/open/available-game': this.readAvailableGame.bind(this),
         '/open/available-game/:gameId': this.readAvailableGameTeam.bind(this),
         '/open/available-game/:gameId/:teamId': this.readAvailableGameTeamPosition.bind(this),
+        '/open/available-gameBase': this.readAvailableGameBase.bind(this),
       },
       put: {
         '/open/enter-game': this.enterGame.bind(this),
+        '/open/enter-gameBase': this.enterGameBase.bind(this),
       }
     };
 
@@ -72,6 +74,20 @@ export class OpenRest extends BasicRest {
     }
   }
 
+  private async readAvailableGameBase(req, res) {
+    try {
+      const
+        response = await this.handler.readAvailableGameBase();
+      res
+        .status(HTTPStatus.OK)
+        .send(response);
+    } catch (e) {
+      res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
   private async readAvailableGameTeam(req, res) {
     try {
       const
@@ -104,6 +120,20 @@ export class OpenRest extends BasicRest {
     try {
       const
         response = await this.handler.enterGame(req.body);
+      res
+        .status(HTTPStatus.OK)
+        .send(response);
+    } catch (e) {
+      res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async enterGameBase(req, res) {
+    try {
+      const
+        response = await this.handler.enterGameBase(req.body);
       res
         .status(HTTPStatus.OK)
         .send(response);

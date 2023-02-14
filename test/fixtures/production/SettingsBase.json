@@ -1,0 +1,13 @@
+{
+    "model": "settingBase",
+    "data": [
+      {
+        "_id": "5fb5248cc869b8a223f1c68f",
+        "async": false,
+        "timer": true,
+        "time": 45,
+        "playersPerTeam": 4,
+        "isDefault": true
+      }
+    ]
+  }

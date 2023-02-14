@@ -31,7 +31,9 @@ import {
 import {
   APISetting,
   Setting,
-  Game
+  Game,
+  SettingBase,
+  GameBase
 } from './BeerGame'
 /**
  * Inicia todos os managers.
@@ -55,6 +57,8 @@ let Managers: ManagerMap = {
   apiSetting: new APISetting(),
   setting: new Setting(),
   game: new Game(),
+  settingBase: new SettingBase(),
+  gameBase: new GameBase(),
 };
 
 export {Managers};

@@ -15,7 +15,9 @@ export class UserRest extends BasicRest {
         '/user/logout': this.logout.bind(this),
         '/user/password': this.updatePassword.bind(this),
         '/user/setting': this.createUpdateUserSettings.bind(this),
+        '/user/settingBase': this.createUpdateUserSettingsBase.bind(this),
         '/user/game': this.createGame.bind(this),
+        '/user/gameBase': this.createGameBase.bind(this),
       },
       put: {
         '/user/info': this.updateInfo.bind(this),
@@ -23,6 +25,7 @@ export class UserRest extends BasicRest {
       },
       get: {
         '/user/setting': this.getSetting.bind(this),
+        '/user/settingBase': this.getSettingBase.bind(this),
         '/user/game': this.getGame.bind(this),
         '/user/reports-available': this.getAvailableReports.bind(this),
         '/user/report/:id': this.readGameDetail.bind(this),
@@ -33,6 +36,7 @@ export class UserRest extends BasicRest {
       },
       delete: {
         '/user/setting': this.deleteSetting.bind(this),
+        '/user/settingBase': this.deleteSettingBase.bind(this),
       }
     };
 
@@ -110,9 +114,41 @@ export class UserRest extends BasicRest {
     }
   }
 
+  private async getSettingBase(request, response) {
+    try {
+      const ret = await this.handler.getSettingBase({
+          auth: request.headers['authentication-key'],
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
   private async createUpdateUserSettings(request, response) {
     try {
       const ret = await this.handler.createUpdateUserSettings({
+          auth: request.headers['authentication-key'],
+          data: request.body,
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async createUpdateUserSettingsBase(request, response) {
+    try {
+      const
+        ret = await this.handler.createUpdateUserSettingsBase({
           auth: request.headers['authentication-key'],
           data: request.body,
         });
@@ -141,9 +177,42 @@ export class UserRest extends BasicRest {
     }
   }
 
+  private async deleteSettingBase(request, response) {
+    try {
+      const
+        ret = await this.handler.deleteSettingBase({
+          auth: request.headers['authentication-key'],
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
   private async createGame(request, response) {
     try {
       const ret = await this.handler.createGame({
+          auth: request.headers['authentication-key'],
+          data: request.body,
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async createGameBase(request, response) {
+    try {
+      const
+        ret = await this.handler.createGameBase({
           auth: request.headers['authentication-key'],
           data: request.body,
         });
