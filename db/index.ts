@@ -33,7 +33,9 @@ import {
   Setting,
   Game,
   SettingBase,
-  GameBase
+  GameBase,
+  SettingLogis,
+  GameLogis
 } from './BeerGame'
 /**
  * Inicia todos os managers.
@@ -59,6 +61,8 @@ let Managers: ManagerMap = {
   game: new Game(),
   settingBase: new SettingBase(),
   gameBase: new GameBase(),
+  settingLogis: new SettingLogis(),
+  gameLogis: new GameLogis(),
 };
 
 export {Managers};
