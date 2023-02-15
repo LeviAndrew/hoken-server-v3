@@ -16,11 +16,15 @@ export class PlatformRest extends BasicRest {
       post: {
         '/platform/register': this.register.bind(this),
         '/platform/game': this.createGame.bind(this),
+        "/platform/gameLogis": this.createGameLogis.bind(this),
       },
       get: {
         '/platform/reports-available': this.getAvailableReports.bind(this),
         '/platform/report/:id': this.readGameDetail.bind(this),
         '/platform/report/xlsx/:id': this.downloadReportXLSX.bind(this),
+        '/platform/reports-availableLogis': this.getAvailableReportsLogis.bind(this),
+        '/platform/reportLogis/:id': this.readGameDetailLogis.bind(this),
+        "/platform/reportLogis/xlsx/:id": this.downloadReportXLSXLogis.bind(this),
       },
     };
 
@@ -76,6 +80,19 @@ export class PlatformRest extends BasicRest {
     }
   }
 
+  private async createGameLogis(request, response) {
+    try {
+      const ret = await this.handler.createGameLogis({
+        pKey: request.headers["platform-key"],
+        userId: request.headers["user-id"],
+        data: request.body,
+      });
+      response.status(HTTPStatus.OK).send(ret);
+    } catch (e) {
+      response.status(HTTPStatus.INTERNAL_SERVER_ERROR).send(e);
+    }
+  }
+
   private async getAvailableReports(request, response) {
     try {
       const ret = await this.handler.getAvailableReports({
@@ -90,6 +107,19 @@ export class PlatformRest extends BasicRest {
       response
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
         .send(e);
+    }
+  }
+
+  private async getAvailableReportsLogis(request, response) {
+    try {
+      const ret = await this.handler.getAvailableReportsLogis({
+        pKey: request.headers["platform-key"],
+        userId: request.headers["user-id"],
+        data: null,
+      });
+      response.status(HTTPStatus.OK).send(ret);
+    } catch (e) {
+      response.status(HTTPStatus.INTERNAL_SERVER_ERROR).send(e);
     }
   }
 
@@ -112,6 +142,21 @@ export class PlatformRest extends BasicRest {
     }
   }
 
+  private async readGameDetailLogis(request, response) {
+    try {
+      const ret = await this.handler.readGameDetailLogis({
+        pKey: request.headers["platform-key"],
+        userId: request.headers["user-id"],
+        data: {
+          id: request.params.id,
+        },
+      });
+      response.status(HTTPStatus.OK).send(ret);
+    } catch (e) {
+      response.status(HTTPStatus.INTERNAL_SERVER_ERROR).send(e);
+    }
+  }
+
   private async downloadReportXLSX(request, response) {
     try {
       const ret = await this.handler.jsonToXLSX({
@@ -131,6 +176,25 @@ export class PlatformRest extends BasicRest {
       response
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)
         .send(e);
+    }
+  }
+
+  private async downloadReportXLSXLogis(request, response) {
+    try {
+      const ret = await this.handler.jsonToXLSXLogis({
+        pKey: request.headers["platform-key"],
+        userId: request.headers["user-id"],
+        data: {
+          id: request.params.id,
+        },
+      });
+      if (!ret.success)
+        response
+          .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+          .send("cannotDownloadXLSX");
+      response.status(HTTPStatus.OK).xls(`repost.xlsx`, ret.data);
+    } catch (e) {
+      response.status(HTTPStatus.INTERNAL_SERVER_ERROR).send(e);
     }
   }
 

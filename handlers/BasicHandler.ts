@@ -224,4 +224,78 @@ export class BasicHandler extends Source {
     }
   }
 
+  protected async basicCreateGameLogis(userId, groups, isApi=false) {
+    try {
+      const countPromises = await Promise.all([
+          this.sendToServer('db.gameLogis.count', new FindObject({
+            query: {
+              teacher: userId,
+              gameStatus: {
+                $ne: 'finished'  // $ne significa não é igual
+              }
+            },
+          })),
+          this.sendToServer('db.gameLogis.count', new FindObject({})),
+        ]);
+      if (countPromises[0].data.error || countPromises[1].data.error) throw 'cannotCreateAnotherGame';
+      if (countPromises[0].data.success > 0) throw 'userAlreadyHaveAGame';
+      const pin = countPromises[1].data.success + 1;
+      return this.sendToServer('gameLogis.create', {
+        userId,
+        groups: groups,
+        pin,
+        isApi,
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  protected getPlayedStart(gameConfig) {
+    return [
+      {
+        estoqueInicial: 0,
+        recebimentoMercadori: gameConfig.productInfos.boxesPerPallet,
+        estoqueDisponivel: gameConfig.productInfos.boxesPerPallet,
+        recebimentoPedido: gameConfig.productInfos.boxesPerPallet,
+        entregaMercadoria: gameConfig.productInfos.boxesPerPallet,
+        pendencia: 0,
+        estoqueFinal: 0,
+        rentStockUsage: 0,
+        custo: 0,
+        custoTotal: 0,
+        deliveryType: 'e1',
+        decisao: 1
+      },
+      {
+        estoqueInicial: 0,
+        recebimentoMercadori: gameConfig.productInfos.boxesPerPallet,
+        estoqueDisponivel: gameConfig.productInfos.boxesPerPallet,
+        recebimentoPedido: gameConfig.productInfos.boxesPerPallet,
+        entregaMercadoria: gameConfig.productInfos.boxesPerPallet,
+        pendencia: 0,
+        estoqueFinal: 0,
+        rentStockUsage: 0,
+        custo: 0,
+        custoTotal: 0,
+        deliveryType: 'e1',
+        decisao: 1
+      },
+      {
+        estoqueInicial: 0,
+        recebimentoMercadori: gameConfig.productInfos.boxesPerPallet,
+        estoqueDisponivel: gameConfig.productInfos.boxesPerPallet,
+        recebimentoPedido: gameConfig.productInfos.boxesPerPallet,
+        entregaMercadoria: gameConfig.productInfos.boxesPerPallet,
+        pendencia: 0,
+        estoqueFinal: 0,
+        rentStockUsage: 0,
+        custo: 0,
+        custoTotal: 0,
+        deliveryType: 'e1',
+        decisao: null
+      }
+    ]
+  }
+
 }

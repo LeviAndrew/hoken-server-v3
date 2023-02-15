@@ -16,14 +16,18 @@ export class OpenRest extends BasicRest {
         // '/open/register': this.register.bind(this), // no beergame cria user (já tem no hoken em management)
       },
       get: {
-        '/open/available-game': this.readAvailableGame.bind(this),
-        '/open/available-game/:gameId': this.readAvailableGameTeam.bind(this),
-        '/open/available-game/:gameId/:teamId': this.readAvailableGameTeamPosition.bind(this),
+        '/open/available-game': this.readAvailableGame.bind(this), // beergame
+        '/open/available-game/:gameId': this.readAvailableGameTeam.bind(this), // beergame
+        '/open/available-game/:gameId/:teamId': this.readAvailableGameTeamPosition.bind(this), // beergame
         '/open/available-gameBase': this.readAvailableGameBase.bind(this),
+        '/open/available-gameLogis': this.readAvailableGameLogis.bind(this),
+        '/open/available-gameLogis/:gameId': this.readAvailableGameTeamLogis.bind(this),
+        '/open/available-gameLogis/:gameId/:teamId': this.readAvailableGameTeamPositionLogis.bind(this),
       },
       put: {
-        '/open/enter-game': this.enterGame.bind(this),
+        '/open/enter-game': this.enterGame.bind(this), // beergame
         '/open/enter-gameBase': this.enterGameBase.bind(this),
+        '/open/enter-gameLogis': this.enterGameLogis.bind(this),
       }
     };
 
@@ -88,6 +92,20 @@ export class OpenRest extends BasicRest {
     }
   }
 
+  private async readAvailableGameLogis(req, res) {
+    try {
+      const
+        response = await this.handler.readAvailableGameLogis();
+      res
+        .status(HTTPStatus.OK)
+        .send(response);
+    } catch (e) {
+      res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
   private async readAvailableGameTeam(req, res) {
     try {
       const
@@ -116,6 +134,32 @@ export class OpenRest extends BasicRest {
     }
   }
 
+  private async readAvailableGameTeamLogis(req, res) {
+    try {
+      const response = await this.handler.readAvailableGameTeamLogis(req.params.gameId);
+      res
+        .status(HTTPStatus.OK)
+        .send(response);
+    } catch (e) {
+      res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async readAvailableGameTeamPositionLogis(req, res) {
+    try {
+      const response = await this.handler.readAvailableGameTeamPositionLogis(req.params.gameId, req.params.teamId);
+      res
+        .status(HTTPStatus.OK)
+        .send(response);
+    } catch (e) {
+      res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
   private async enterGame(req, res) {
     try {
       const
@@ -134,6 +178,20 @@ export class OpenRest extends BasicRest {
     try {
       const
         response = await this.handler.enterGameBase(req.body);
+      res
+        .status(HTTPStatus.OK)
+        .send(response);
+    } catch (e) {
+      res
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async enterGameLogis(req, res) {
+    try {
+      const
+        response = await this.handler.enterGame(req.body);
       res
         .status(HTTPStatus.OK)
         .send(response);

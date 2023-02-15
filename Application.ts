@@ -19,6 +19,7 @@ import {Router} from "express";
 import {AccessController} from './session/AccessController'
 import {GameController} from './game_beergame/GameController'
 import {GameBaseController} from './game_base/GameController'
+import {GameLogisController} from './game_logisgame/GameController'
 import {TestsSessionController} from './session/TestsSessionController';
 import {MailSender} from './mail/MailSender'
 import * as fs from "fs";
@@ -30,6 +31,7 @@ export class Application extends Source {
   private _accessController: AccessController;
   private _gameController: GameController;
   private _gameBaseController: GameBaseController;
+  private _gameLogisController: GameLogisController;
   private _testsSessionController: TestsSessionController;
   private _mainPort: any;
   private _dataBase: any;
@@ -69,6 +71,10 @@ export class Application extends Source {
 
   private set gameController(gameController) {
     this._gameController = new gameController();
+  }
+
+  private set gameLogisController(gameLogisController) {
+    this._gameLogisController = new gameLogisController();
   }
 
   private set gameBaseController(gameBaseController) {
@@ -177,6 +183,7 @@ export class Application extends Source {
     this.accessController = AccessController;
     this.gameController = GameController;
     this.gameBaseController = GameBaseController;
+    this.gameLogisController = GameLogisController;
   }
 
   /**

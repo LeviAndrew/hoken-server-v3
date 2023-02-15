@@ -16,8 +16,10 @@ export class UserRest extends BasicRest {
         '/user/password': this.updatePassword.bind(this),
         '/user/setting': this.createUpdateUserSettings.bind(this),
         '/user/settingBase': this.createUpdateUserSettingsBase.bind(this),
+        '/user/settingLogis': this.createUpdateUserSettingsLogis.bind(this),
         '/user/game': this.createGame.bind(this),
         '/user/gameBase': this.createGameBase.bind(this),
+        '/user/gameLogis': this.createGameLogis.bind(this),
       },
       put: {
         '/user/info': this.updateInfo.bind(this),
@@ -26,17 +28,23 @@ export class UserRest extends BasicRest {
       get: {
         '/user/setting': this.getSetting.bind(this),
         '/user/settingBase': this.getSettingBase.bind(this),
+        '/user/settingLogis': this.getSettingLogis.bind(this),
         '/user/game': this.getGame.bind(this),
         '/user/reports-available': this.getAvailableReports.bind(this),
+        '/user/reports-availableLogis': this.getAvailableReportsLogis.bind(this),
         '/user/report/:id': this.readGameDetail.bind(this),
+        '/user/reportLogis/:id': this.readLogisGameDetail.bind(this),
         '/user/currentGame/:id': this.readCurrentGame.bind(this),
+        '/user/currentGameLogis/:id': this.readCurrentGameLogis.bind(this),
         '/user/report/xlsx/:id': this.downloadReportXLSX.bind(this),
+        '/user/reportLogis/xlsx/:id': this.downloadReportLogisXLSX.bind(this),
         '/user/entities': this.entitiesRead.bind(this),
         '/user/entity/children/:entityId': this.entityChildrenRead.bind(this),
       },
       delete: {
         '/user/setting': this.deleteSetting.bind(this),
         '/user/settingBase': this.deleteSettingBase.bind(this),
+        '/user/settingLogis': this.deleteSettingLogis.bind(this),
       }
     };
 
@@ -129,6 +137,21 @@ export class UserRest extends BasicRest {
     }
   }
 
+  private async getSettingLogis(request, response) {
+    try {
+      const ret = await this.handler.getSettingLogis({
+          auth: request.headers['authentication-key'],
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
   private async createUpdateUserSettings(request, response) {
     try {
       const ret = await this.handler.createUpdateUserSettings({
@@ -149,6 +172,22 @@ export class UserRest extends BasicRest {
     try {
       const
         ret = await this.handler.createUpdateUserSettingsBase({
+          auth: request.headers['authentication-key'],
+          data: request.body,
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async createUpdateUserSettingsLogis(request, response) {
+    try {
+      const ret = await this.handler.createUpdateUserSettingsLogis({
           auth: request.headers['authentication-key'],
           data: request.body,
         });
@@ -226,6 +265,22 @@ export class UserRest extends BasicRest {
     }
   }
 
+  private async createGameLogis(request, response) {
+    try {
+      const ret = await this.handler.createGameLogis({
+          auth: request.headers['authentication-key'],
+          data: request.body,
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
   private async getGame(request, response) {
     try {
       const
@@ -276,9 +331,43 @@ export class UserRest extends BasicRest {
     }
   }
 
+  private async getAvailableReportsLogis(request, response) {
+    try {
+      const ret = await this.handler.getAvailableReportsLogis({
+          auth: request.headers['authentication-key'],
+          data: null,
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
   private async readGameDetail(request, response) {
     try {
       const ret = await this.handler.readGameDetail({
+          auth: request.headers['authentication-key'],
+          data: {
+            id: request.params.id,
+          },
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async readLogisGameDetail(request, response) {
+    try {
+      const ret = await this.handler.readLogisGameDetail({
           auth: request.headers['authentication-key'],
           data: {
             id: request.params.id,
@@ -312,6 +401,24 @@ export class UserRest extends BasicRest {
     }
   }
 
+  private async readCurrentGameLogis(request, response) {
+    try {
+      const ret = await this.handler.readCurrentGameLogis({
+          auth: request.headers['authentication-key'],
+          data: {
+            id: request.params.id,
+          },
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
   private async downloadReportXLSX(request, response) {
     try {
       const ret = await this.handler.jsonToXLSX({
@@ -326,6 +433,42 @@ export class UserRest extends BasicRest {
       response
         .status(HTTPStatus.OK)
         .xls(`repost.xlsx`, ret.data);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async downloadReportLogisXLSX(request, response) {
+    try {
+      const ret = await this.handler.jsonToXLSXLogis({
+          auth: request.headers['authentication-key'],
+          data: {
+            id: request.params.id,
+          },
+        });
+      if (!ret.success) response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send("cannotDownloadXLSX");
+      response
+        .status(HTTPStatus.OK)
+        .xls(`repost.xlsx`, ret.data);
+    } catch (e) {
+      response
+        .status(HTTPStatus.INTERNAL_SERVER_ERROR)
+        .send(e);
+    }
+  }
+
+  private async deleteSettingLogis(request, response) {
+    try {
+      const ret = await this.handler.deleteSettingLogis({
+          auth: request.headers['authentication-key'],
+        });
+      response
+        .status(HTTPStatus.OK)
+        .send(ret);
     } catch (e) {
       response
         .status(HTTPStatus.INTERNAL_SERVER_ERROR)

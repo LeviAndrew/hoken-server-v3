@@ -438,7 +438,8 @@
       "methods": [
         "register",
         "setting",
-        "settingBase"
+        "settingBase",
+        "settingLogis"
       ]
     }
   ]
